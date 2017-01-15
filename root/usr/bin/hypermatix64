@@ -71,7 +71,7 @@ while true; do
 	case "$1" in
 		-d|--debug)
 			echo "$HX64DEBUG"
-			invocation="python -d "
+			invocation="python2 -d "
 			shift
 			;;
 		-v|--version|-e|--dumplog|-h|--help)

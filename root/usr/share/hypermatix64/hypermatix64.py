@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 # Copyright 2006-2008 (?) Automatix Team
 # Copyright 2010 (?) TheeMahn
 # Copyright 2016, 2017 Declan Hoare
@@ -18,10 +18,6 @@
 # along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
 #
 # hypermatix64.py - entry point
-
-# Note: Change the hashbang to "python" rather than "python3" before
-# release. Using Python3 is just to check for errors under it, in case
-# we get stuck in some environment where Python2 is unavailable...
 
 import sys, argparse
 from resin_config import *
