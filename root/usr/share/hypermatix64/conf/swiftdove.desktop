@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Swiftdove
+Exec=/opt/automatix/swiftdove/swiftdove
+Terminal=false
+Type=Application
+StartupNotify=false
+Icon=/opt/automatix/swiftdove/icons/mozicon50.xpm
+Categories=Application;Network;
+Name[en_US]=Swiftdove

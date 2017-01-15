@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=DVDshrink
+Comment=DVDshrink for Linux
+Exec=/usr/bin/xdvdshrink.pl
+Icon=/usr/share/applications/dvdshrink/32x32/dvdsrhink.xpm
+Terminal=false
+Type=Application
+Categories=Application;AudioVideo;

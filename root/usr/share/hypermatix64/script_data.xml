@@ -1,0 +1,2898 @@
+<!--
+Hypermatix64 Metadata (planned behaviour)
+
+The "license" tag will display a file found in /usr/share/hypermatix64/licenses
+before installation begins. If the agreement is declined, then the script using
+the tag, and any of its dependencies, will be removed from the list. If it is
+accepted, then this will be remembered so that the user is not asked again.
+
+The "debconf" tag sets a key in debconf on distros that use it. It is usually
+used in combination with "license" so that the agreement can be handled by
+Hypermatix64 before installation rather than interrupting the script halfway
+through with debconf.
+
+The "name" tag gives the name of the package in a certain repository. If there
+is more than one in an option, each "name" should have a "priority" attribute
+to determine which one is used, in case multiple of the repositories are available
+on one system. Each distro has a list of repositories which it can use, seen in
+/usr/share/hypermatix64/script_data/[distro name], with attributes determining
+how they are added and what architectures they are compatible with.
+
+The "specialFlag" tag gives specialised options to Hypermatix64. Skype uses this
+to remove the "skype64" repository after installation (as Skype's package from
+there adds its own copy). Masna uses this to add the PPA (the actual metapackage
+installed is from the hypermatix64 repo since it contains various scripts).
+-->
+
+
+<page>
+
+<option id="restrictedextras" type="Media Players and Editors">
+  <title>Ubuntu Restricted Extras</title>
+  <description>Play back patented media formats</description>
+  <info>
+  <![CDATA[
+	This option installs the <b>Restricted Extras</b> for Ubuntu and its derivatives.
+	These allow the playback of various media formats which are protected by patents. ]]>   
+  </info>
+  <license>mscorefonts.html</license>
+  <debconf>
+	<setting>
+		<key>msttcorefonts/accepted-mscorefonts-eula</key>
+		<value>true</value>
+	</setting>
+  </debconf>
+  <name repository="hypermatix64">hypermatix64-meta-restricted</name>
+ </option>
+ 
+<option id="ilinux" type="Media Players and Editors">
+  <title>iLinux</title>
+  <description>Edit photos, make home videos, and sync your iPod</description>
+  <info>
+   <![CDATA[
+	This is a collection of popular multimedia software on Linux, similar to iLife on Macs. 
+	F-Spot is a photo manager, Kino is a video editor, and DeVeDe is a DVD creator.
+	This option also includes popular iPod libraries which enable iPod support on Linux. ]]>       
+  </info>
+  <debconf>
+	<setting>
+		<key>msttcorefonts/accepted-mscorefonts-eula</key>
+		<value>true</value>
+	</setting>
+  </debconf>
+  <name repository="hypermatix64">hypermatix64-meta-ilinux</name>
+ </option>
+ 
+<option id="acrobat" type="Office">
+  <title>Acrobat Reader</title>
+  <description>Read PDF files</description>
+  <info>
+   <![CDATA[
+	<p><b>Acrobat Reader</b> is a product of <a href="http://www.adobe.com">Adobe</a> 
+	and it allows the viewing and printing of PDF files. 
+	Acrobat and Reader are major components of the Adobe Engagement Platform, 
+	and are widely used as a way to present information with a fixed layout 
+	similar to a paper publication.</p>]]>  
+  </info>
+  <name repository="hypermatix64">adobereader-enu</name>
+ </option>
+ 
+<option id="frostwire" type="File Sharing">
+  <title>FrostWire</title>
+  <description>Share files using peer-to-peer technology</description>
+  <info>
+ <![CDATA[ 
+	<b>FrostWire</b>, a Gnutella Peer-to-Peer client, is a collaborative effort from many Open Source and freelance developers located from all around the world. In late 2005, concerned developers of LimeWire's open source community announced the start of a new project fork "FrostWire" that would protect the developmental source code of the LimeWire client and any improvements to the Gnutella protocol design. The developers of FrostWire give high regard and respect to the GNU General Public License and consider it to be the ideal foundation of a creative and free enterprise market. ]]>
+  </info>
+  <name repository="hypermatix64">frostwire</name>
+ </option> 
+
+ <option id="extrafonts" type="Miscellaneous">
+  <title>Extra Fonts</title>
+  <description>See Web pages, software, and games correctly</description>
+  <info>
+ <![CDATA[
+	This option will install the Microsoft core fonts, allowing several games, programs, and Web sites to display correctly.
+	It also includes a number of other commonly requested fonts.
+	 ]]>     
+  </info>
+  <license>mscorefonts.html</license>
+  <debconf>
+	<setting>
+		<key>msttcorefonts/accepted-mscorefonts-eula</key>
+		<value>true</value>
+	</setting>
+  </debconf>
+  <name repository="hypermatix64">hypermatix64-meta-fonts</name>
+ </option>
+ 
+ <option id="archivingtools" type="Utilities" users="yakkety">
+  <title>Archiving Tools</title>
+  <description>Extract common archive formats (rar, 7z, etc.)</description>
+   <info>
+    <![CDATA[
+	The <b>Archiving Tools</b> add extra archiving capabilities to Archive Manager and Ark. ]]>  
+  </info>
+  <name repository="hypermatix64">hypermatix64-meta-compress</name>
+ </option>
+<option id="skype" type="Chat Clients" users="yakkety">
+  <title>Skype</title>
+  <description>Chat with friends</description>
+  <info>
+<![CDATA[
+	<a href="http://www.skype.com"><b>Skype</b></a> is a peer-to-peer Internet telephony network 
+	founded by entrepreneurs Niklas Zennstrom and Janus Friis, also founders of the file sharing application Kazaa. 
+	It competes against existing open VoIP protocols such as SIP, IAX, and H.323. 
+	Skype has experienced rapid growth in both popular usage and software development since its launch, 
+	both of its free and its paid services. The Skype communications system is notable for 
+	its broad range of features, including free voice conferencing and
+	its ability to use peer to peer (decentralized) technology to overcome common firewall 
+	and NAT (Network Address Translation) problems. It is currently developed by Microsoft.  ]]>    
+  </info>
+  <name repository="skype64" priority="1">skypeforlinux</name>
+  <name repository="hypermatix64" priority="2">skypeforlinux</name>
+  <name repository="hypermatix64" priority="3">skype</name>
+  <specialFlag id="removeRepoImmediatelyAfterInstallation" repository="skype64" />
+ </option>
+ <option id="googleearth" type="Office" users="yakkety">
+  <title>Google Earth</title>
+  <description>Explore Earth using satellite imagery</description>
+  <info>
+   <![CDATA[
+	<b>Google Earth</b> combines the power of Google Search with satellite imagery, maps, 
+	terrain and 3D buildings to put the world's geographic information at your fingertips.
+
+	<li>Fly to your house. Just type in an address, press Search, and you will zoom right in.</li>  
+	<li>Search for schools, parks, restaurants, and hotels. Get driving directions.</li>
+	<li>Tilt and rotate the view to see 3D terrain and buildings.</li>
+	<li>Save and share your searches and favorites.</li>]]> 
+  </info>
+  <exec>
+<![CDATA[
+googleearthinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gearthremove	
+					
+			]]>
+  </uninstall>
+</option>
+ <option id="dvdrip" type="Burning and Ripping" users="yakkety">
+  <title>dvd::rip</title>
+  <description>Back up your home videos</description>
+  <info>
+  <![CDATA[
+	<b>dvd::rip</b> is a full-featured DVD copy program. 
+	It provides an easy to use, but feature-rich, GUI to control almost 
+	all aspects of the ripping and transcoding process.  ]]>
+  </info>
+  <exec>
+<![CDATA[
+ripping
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+rippingremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="snort" type="Installers" users="yakkety">
+  <title>Snort</title>
+  <description>Network Intrusion Detection System</description>
+  <info>
+   <![CDATA[ 
+<b>Snort</b> is a "lightweight" intrusion detection technology in comparison to commercially available systems. It is controlled from the command line.
+
+Snort really isn't very hard to use, but there are a lot of command line options to play with, and it's not always obvious which ones go together well.
+
+Snort can be configured to run in four modes:
+
+<ul>
+<li>Sniffer mode, which simply reads the packets off of the network and displays them for you in a continuous stream on the console (screen).</li>
+<li>Packet Logger mode, which logs the packets to disk.</li>
+<li>Network Intrusion Detection System (NIDS) mode, the most complex and configurable configuration, which allows Snort to analyze network traffic for matches against a user-defined rule set and performs several actions based upon what it sees.</li>
+<li>Inline Mode, which obtains packets from iptables instead of from libpcap and then causes iptables to drop or pass packets based on Snort rules that use inline-specific rule types.</li>
+ </ul>
+ 
+ Snort requires you to specify an existing network interface during installation, or it will fail.
+ ]]>
+  </info>
+  <exec>
+<![CDATA[
+snortinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+snortremove
+					
+			]]>
+  </uninstall>
+ </option>
+   <option id="nexuiz" type="Games" users="yakkety">
+  <title>Nexuiz</title>
+  <description>Fast-paced, first-person deathmatch</description>
+  <info>
+ <![CDATA[
+ 	<b>Nexuiz</b> is a fast-paced 3D deathmatch game project created on-line by a team of developers called Alientrap.  The first version was released May 31st 2005, released entirely GPL and free over the net, a first for a project of its kind. Since then it has been downloaded over 1.5 million times, and the game is still being updated and developed.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+nexuizinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+nexuizremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+<option id="picasa" type="Office" users="yakkety">
+  <title>Google Picasa</title>
+  <description>Organise, edit, and share your photos</description>
+  <info>
+ <![CDATA[
+	<b>Picasa</b> is a free software download from Google that helps you:
+<ul>
+	<li>Locate and organize all the photos on your computer.</li>
+	<li>Edit and add effects to your photos with a few simple clicks.</li>
+	<li>Share your photos with others through e-mail, prints, and on the Web: it is fast, easy and free.</li></ul>]]>
+  </info> 
+  <exec>
+<![CDATA[
+googlepicasa
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+googlepremove
+			]]>
+  </uninstall>
+ </option>
+<option id="wine" type="Virtualisation" users="yakkety">
+  <title>Wine</title>
+  <description>Install and use Microsoft Windows software on Linux</description>
+  <info>
+<![CDATA[
+	<b>Wine</b> is an Open Source implementation of the Windows API on top of X, OpenGL, and Unix.
+	Think of Wine as a compatibility layer for running Windows programs. 
+	Wine does not require Microsoft Windows, as it is a completely free alternative implementation 
+	of the Windows API consisting of 100% non-Microsoft code. However Wine can optionally use native 
+	Windows DLLs if they are available. Wine provides both a development toolkit for porting 
+	Windows source code to Unix as well as a program loader, allowing many unmodified Windows programs 
+	to run on x86-based Unixes, including Linux, FreeBSD, Mac OS X, and Solaris.  ]]>    
+  </info>
+  <exec>
+<![CDATA[
+wineinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+wineremove
+			]]>
+  </uninstall>
+ </option>
+<option id="masna" type="Miscellaneous" users="yakkety" desktop="gnome">
+  <title>Masna</title>
+  <description>Extend the functionality of the Nautilus file browser</description>
+  <depends>terminator</depends>
+  <info>
+  <![CDATA[ 
+	<b>Masna</b> is a simple program to manage Nautilus scripts.<br />
+	This option will also install several scripts for Nautilus, which Masna can manage. These include:
+	<ul>
+	<li>Open any file with gedit as root</li>
+	<li>Open the current location in Nautilus as root</li>
+	<li>Open the GNOME search tool in the current location</li>
+	<li>Generate thumbnails for JPEG and PNG images in the current location</li>
+	<li>Open a terminal in the current location</li>
+	<li>Mount an ISO image</ul>
+	These can be enabled with Masna after installation.
+	]]> 
+  </info>
+  <exec>
+<![CDATA[
+nautilusscripts
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+nscriptsremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="oraclejava" type="Programming Tools" users="yakkety">
+  <title>Oracle JRE and JDK</title>
+  <description>Oracle's version of Java</description>
+  <info>
+<![CDATA[
+<div style="color: red;">Installing this version of Java indicates that you accept <a href="http://www.oracle.com/technetwork/java/javase/terms/license/index.html">Oracle's license agreement for it</a>.</div>
+	The <b>Java Development Kit (JDK)</b> is an Oracle product aimed at Java developers. 
+	Since the introduction of Java, it has been by far the most widely used Java SDK. 
+	It contains a Java compiler and a number of other important development tools as 
+	well as a full copy of the Java Runtime Environment. ]]>
+  </info>
+  <exec>
+<![CDATA[
+sunjavaJREJDK	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+sunjavaJREJDKremove	
+					
+			]]>
+  </uninstall>
+ </option>
+  <option id="glest" type="Games" users="yakkety">
+  <title>Glest</title>
+  <description>Real-time strategy game</description>
+  <info>
+ <![CDATA[
+ 	<b>Glest</b> is a free 3D real-time strategy game. The core game allows the player to take control of two completely different factions: Tech, which is mainly composed of warriors and mechanical devices, and Magic, that prefers mages and summoned creatures in the battlefield.]]> 
+  </info>
+  <exec>
+<![CDATA[
+glestinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+glestremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+<option id="openclipart" type="Office" users="yakkety">
+  <title>Open Clip Art Library</title>
+  <description>Adds clipart to LibreOffice</description>
+  <info>
+ <![CDATA[
+	The <b>Open Clip Art Library</b> is a collection of 100% license-free, 
+	royalty-free, and restriction-free art that you can use for any purpose. 
+	You will have at your command thousands of clipart images, in svg and png format, 
+	ready for use in various office applications and wherever else you want.<br />
+	After installation, the clipart can be found in the gallery in LibreOffice Writer, Impress, etc. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+clipart
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+clipartremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="checkgmail" type="E-mail Clients" users="yakkety">
+  <title>CheckGmail</title>
+  <description>Check your Gmail messages</description>
+  <info>
+  <![CDATA[
+	<p><b>CheckGmail</b> is an alternative Gmail Notifier for Linux and other *nix systems. 
+	It is fast, secure and uses minimal bandwidth via the use of Atom feeds.</p>
+
+	CheckGmail is a system tray application that checks a Gmail account for new mail. 
+	When new mail is present the tray icon changes, an optional animated popup is displayed 
+	and a tooltip displays the number and details of new messages. 
+	Each message can be opened directly in a browser window, and many common Gmail 
+	operations (marking as read, archiving, 
+	deleting or reporting as spam) can be carried out on messages directly within CheckGmail, 
+	without the need to use the Gmail web interface. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+gmailchecker
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gmailcheckerremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <!-- FIXME: make the program work properly, and ensure it doesn't violate the law in Australia
+<option id="script24" type="Burning and Ripping" users="gutsy" desktop="gnome">
+ <title>xDVDshrink</title>
+  <description>Shrink and copy your home videos</description>
+  <info>
+  <![CDATA[
+	<b>xDVDShrink</b> for Linux is a powerful, easy-to-use DVD transcoder. 
+	The interface allows the user to choose specifically 
+	which DVD elements (video titles, audio tracks, menus, and subtitles) 
+	to retain on the "shrunken" DVD. The user is also able to choose how the compression 
+	is to be distributed across the movie. DVD Shrink will automatically recompress 
+	the video to as little as 39% of its original size, depending on the aspect ratio 
+	of the original DVD (with a corresponding loss in quality) to allow it 
+	to fit on a standard DVD+-R(W), a Dual-Layer DVD+R, or any user-defined custom size. ]]> 
+  </info> 
+  <exec>
+<![CDATA[
+xdvdshrinkinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+xdvdshrinkremove
+			]]>
+  </uninstall>
+ </option> -->
+<option id="nightingale" type="Media Players and Editors" users="yakkety">
+ <title>Nightingale</title>
+  <description>Manage and listen to your music library</description>
+  <info>
+  <![CDATA[
+	<p><b>Nightingale</b> is a desktop Web player, a digital jukebox and Web browser mash-up. 
+	Like Winamp, it supports extensions and skins (feathers). Like Firefox, 
+	it is built from Mozilla, cross-platform and open source. It is a fork of Songbird.</p>]]> 
+  </info>
+  <exec>
+<![CDATA[
+songbird
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+sbremove
+			]]>
+  </uninstall>
+ </option> 
+ <option id="tremulous" type="Games" users="yakkety">
+  <title>Tremulous</title>
+  <description>Team-based FPS</description>
+  <info>
+ <![CDATA[
+ 	<b>Tremulous</b> is a free and open source team-based first-person shooter with real-time strategy elements. The game features two teams, humans and aliens, each having to build and protect a base. Victory is achieved by the destruction of the enemy base and by eliminating all members of the enemy team. The game has been downloaded over 1,000,000 times and was voted Player's Choice Standalone Game of the Year in ModDB's Mod of the Year 2006 competition.]]> 
+  </info>
+  <exec>
+<![CDATA[
+tremulousinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+tremulousremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="battleforwesnoth" type="Games" users="yakkety">
+  <title>The Battle for Wesnoth</title>
+  <description>Turn-based fantasy strategy</description>
+  <info>
+ <![CDATA[
+ 	<b>The Battle for Wesnoth</b> is a turn-based strategy game with a fantasy theme. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+wesnothinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+wesnothremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+<option id="developeressentials" type="Programming Tools" users="yakkety">
+  <title>Developer Essentials</title>
+  <description>Compile and package software</description>
+  <info>
+  <![CDATA[
+	This option installs a list of packages which are
+	considered essential for creating Debian packages
+	and compiling programs from source. ]]>  
+  </info>
+  <exec>
+<![CDATA[
+devessentials
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+devessentialsremove
+			]]>
+  </uninstall>
+ </option>
+ <option id="gftp" type="Miscellaneous" users="yakkety">
+  <title>gFTP</title>
+  <description>Transfer files over FTP</description>
+  <info>
+ <![CDATA[
+ 	<p>
+<b>gFTP</b> is a multithreaded FTP client.</p>
+
+<p>gFTP features:</p><UL>
+  <LI> simultaneous downloads</li>
+  <LI> resuming of interrupted file transfers</li>
+  <LI> file transfer queues</li>
+  <LI> downloading of entire directories</li>
+  <LI> FTP and HTTP proxy support</LI>
+  <LI> remote directory caching</LI>
+  <LI> passive and non-passive file transfers</LI>
+  <LI> drag-n-drop support</LI>
+  <LI> bookmarks menu</LI>
+  <LI> support for SSH and SSH2 file transfers</LI>
+  <LI> support FXP transfers</LI>
+  <LI> stop button, and many more features.</li>
+</ul>
+]]> 
+  </info>
+  <exec>
+<![CDATA[
+gftpinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gftpremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+ <option id="warsow" type="Games" users="yakkety">
+  <title>Warsow</title>
+  <description>First-person shooter</description>
+  <info>
+ <![CDATA[
+ 	<p><b>Warsow</b> is a first-person shooter video game first publicly released on June 8, 2005 as an alpha version. The game is in active development. The stable version was released on July 28, 2012 after 7 years of development.</p>
+
+<p>Warsow's codebase is free and open source software, distributed under the terms of the GPL; it is built upon Qfusion, an advanced modification of the Quake II engine. The artwork and other media were originally licensed under the proprietary Warsow Content License, which allowed the contributors of this media to use the work in a "personal portfolio" but not in any other game, but have since been released under the Creative Commons Attribution-ShareAlike 4.0 International License. </p>]]> 
+  </info>
+  <exec>
+<![CDATA[
+warsowinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+warsowremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="wolfenstein" type="Games" users="yakkety">
+  <title>Wolfenstein: Enemy Territory</title>
+  <description>Multiplayer shooter based on the Wolfenstein series</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ 	<b>Wolfenstein: Enemy Territory</b> is a stand-alone multiplayer game in which players wage war as Axis or Allies in team-based combat. In Wolfenstein: Enemy Territory, Axis and Allied teams do battle in traditional single scenarios, or wage war through a series of linked scenarios in a totally new campaign mode.]]> 
+  </info>
+  <exec>
+<![CDATA[
+rtcwinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+rtcwremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+  <option id="americasarmy" type="Games" users="yakkety">
+  <title>America's Army</title>
+  <description>Promotional, multiplayer, simulation game for the US army</description>
+  <info>
+ <![CDATA[
+ 	Launched in July 2002, the <b>America's Army</b> game, which is rated "T" for Teen by the ESRB, has become one of the most popular computer games in the world. America's Army has penetrated contemporary culture and is one of the most recognizable game brands as a result of its unique inside perspective of the U.S. Army and its exciting gameplay.<br />
+ 	America's Army discontinued Linux support in version 3. This will install the America's Army 2.5 Assist client, which provides new servers, allowing you to play the older version. In order to log in to these servers, you will need to make an account with <a href="http://battletracker.com/forum/index.php?page=Register&action=register">Battletracker</a> and set an America's Army username.]]> 
+  </info>
+  <exec>
+<![CDATA[
+aainstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+aaremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+ <option id="boswars" type="Games" users="yakkety">
+  <title>Bos Wars</title>
+  <description>Futuristic real-time strategy game</description>
+  <info>
+ <![CDATA[
+ 	<b>Bos Wars</b> is a futuristic real-time strategy game (RTS). In an RTS game, the player has to combat his enemies while developing his war economy. Everything runs in real-time, as opposed to turn-based games where the player always has to wait for his turn. The trick is to balance the effort put into building his economy and building an army to defend and attack the enemies.
+
+Bos Wars has a dynamic rate-based economy. Energy is produced by power plants and magma gets pumped from hot spots. Buildings and mobile units are also built at a continuous rate. Control of larger parts of the map creates the potential to increase your economy throughput. Holding key points like roads and passages allow for different strategies.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+boswarsinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+boswarsremove	
+					
+			]]>
+  </uninstall>
+ </option>  
+  <option id="alienarena2007" type="Games" users="yakkety">
+  <title>Alien Arena 2007</title>
+  <description>Deathmatch first-person shooter</description>
+  <info>
+ <![CDATA[
+ 	  <b>Alien Arena 2007</b> combines some of the very best aspects of such games as Quake III and Unreal Tournament and wraps them up with a retro alien theme, while adding tons of original ideas to make the game quite unique. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+aa07install
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+aa07remove	
+					
+			]]>
+  </uninstall>
+ </option>  
+ <option id="ameobax" type="Games" users="yakkety">
+  <title>Amoebax</title>
+  <description>Puyo Puyo clone</description>
+  <info>
+ <![CDATA[
+ 	<b>Amoebax</b> is a free Puyo Puyo-style puzzle game for up to two players. The objective of the game is to beat the opponent in a battle by filling up their grid up to the top with garbage.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+amobaxinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+amobaxremove	
+					
+			]]>
+  </uninstall>
+ </option>  
+ <option id="assaultcube" type="Games" users="yakkety">
+  <title>AssaultCube</title>
+  <description>First-person shooter</description>
+  <info>
+ <![CDATA[
+ 	<b>AssaultCube</b> is a total conversion of Wouter van Oortmerssen's FPS called Cube, set in a realistic looking environment, while gameplay stays fast and arcade-like. This game is all about team-oriented multiplayer fun.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+assaultcubeinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+assaultcuberemove	
+					
+			]]>
+  </uninstall>
+ </option>  
+ <option id="atanks" type="Games" users="yakkety">
+  <title>Atanks</title>
+  <description>Turn-based tank combat</description>
+  <info>
+ <![CDATA[
+ 	 <b>Atanks</b> (Atomic Tanks) is a multi-platform Scorched Earth clone similar to the Worms series of games. Annihilate the other tanks to earn money, then spend it on bigger and better shields and weapons to wipe out the opposition. It features a wide array of weapons, AI players, destructible landscape, weather, parachutes, teleports and a wide range of other features. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+atanksinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+atanksremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+ <option id="vdrift" type="Games" users="yakkety">
+  <title>VDrift</title>
+  <depends>getdebrepo</depends>
+  <description>Driving game</description>
+  <info>
+ <![CDATA[
+ 	<b>VDrift</b> is a cross-platform, free/open source driving simulator, released under the GNU General Public License.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+vdriftinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+vdriftremove	
+					
+			]]>
+  </uninstall>
+ </option>     
+ <option id="legends" type="Games" users="yakkety">
+  <title>Legends</title>
+  <description>Team-based first-person shooter</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ 	<b>Legends</b> is a fast-paced first-person-perspective on-line multiplayer game released as freeware. The game is designed to take advantage of the beautiful environments available from the Torque engine it is based on, while still offering the breakneck pacing and variety of styles available from such classics as Quake and Tribes.   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+legendsinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+legendsremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+  <option id="sauerbraten" type="Games" users="yakkety">
+  <title>Sauerbraten</title>
+  <description>Multiplayer shooter</description>
+  <info>
+ <![CDATA[
+ 	<b>Sauerbraten</b> is a networked fast-paced 3D first person ego-shooter game. It features rather modern graphic effects and some nice graphic details. The game client also works as the map editor. It is even possible to create and/or edit a map together with other people over a network connection.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+sourinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+sourremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="bzflag" type="Games" users="yakkety">
+  <title>BZFlag</title>
+  <description>Tank battle game</description>
+  <info>
+ <![CDATA[
+ 	<b>BZFlag</b> is a free on-line multiplayer cross-platform open source 3D tank battle game. It runs on Irix, Linux, BSD, Windows, Mac OS 10, and many other platforms.]]> 
+  </info>
+  <exec>
+<![CDATA[
+bzflaginstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+bzflagremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="screenlets" type="Eyecandy" users="yakkety">
+  <title>Screenlets</title>
+  <description>Make your desktop useful</description>
+  <info>
+ <![CDATA[
+<b>Screenlets</b> are small applications which sit on your desktop and can be described as "the virtual representation of things lying/standing around on your desk". Sticky notes, clocks, rulers - the possibilities are endless.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+screenletsinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+screenletsremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="gdesklets" type="Eyecandy" users="yakkety">
+  <title>Gdesklets</title>
+  <description>Make your desktop useful</description>
+  <info>
+ <![CDATA[
+ 	<b>gDesklets</b> are tiny applets sitting on your desktop in a symbiotic relationship of eye candy and usefulness.
+
+You can populate your desktop with status meters, icon bars, weather sensors, news tickers - whatever you can imagine. Virtually anything is possible.   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+gdeskletsinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gdeskletsremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="ubuntutweak" type="Tweaks" users="yakkety">
+  <title>Ubuntu Tweak</title>
+  <description>Manage your Ubuntu system</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ 	<b>Ubuntu Tweak</b> is a control panel for Ubuntu. It displays system information, helps keep your system up to date, and includes a disk cleanup tool and various settings to tweak your computer's behaviour.   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+utweakinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+utweakremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="globulation2" type="Games" users="yakkety">
+  <title>Globulation 2</title>
+  <description>Real-time strategy</description>
+  <info>
+ <![CDATA[
+ 	<b>Globulation 2</b> is an innovative Real-Time Strategy (RTS) game which reduces micro-management by automatically assigning tasks to units. Globulation 2 is Free Software, licensed and distributed under the GNU General Public License.
+
+Globulation 2 brings a new type of gameplay to RTS games. The player chooses the number of units to assign to various tasks, and the units do their best to satisfy the requests. This allows players to manage more units and focus on strategy rather than on micro-management. Globulation 2 also features AI, allowing single-player games or any possible combination of human-computer teams. The game also includes a scripting language for versatile gameplay or tutorials and an integrated map editor. You can play Globulation 2 in single player mode, through your local network, or over the Internet with Ysagoon Online Gaming (or YOG for short).   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+glob2install
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+glob2remove	
+					
+			]]>
+  </uninstall>
+ </option>
+  <option id="freecol" type="Games" users="yakkety">
+  <title>FreeCol</title>
+  <description>Colonization clone</description>
+  <info>
+ <![CDATA[
+ 	<b>FreeCol</b> is an open source version of Colonization (released under the GPL).]]> 
+  </info>
+  <exec>
+<![CDATA[
+freecolinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+freecolremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="flightgear" type="Games" users="yakkety">
+  <title>FlightGear</title>
+  <description>Flight Simulator</description>
+  <info>
+ <![CDATA[
+ 	<b>FlightGear</b> is a free flight simulator project. It is being developed through the gracious contributions of source code and spare time by many talented people from around the globe. Among the many goals of this project are the quest to minimize short cuts and "do things right", the quest to learn and advance knowledge, and the quest to have better toys to play with. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+flightgearinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+flightgearremove	
+					
+			]]>
+  </uninstall>
+  </option>
+  <option id="frozenbubble" type="Games" users="yakkety">
+  <title>Frozen Bubble</title>
+  <description>Puzzle Bobble clone</description>
+  <info>
+ <![CDATA[
+ 	<b>Frozen Bubble</b> is a free software Puzzle Bobble style computer game.]]> 
+  </info>
+  <exec>
+<![CDATA[
+frozeninstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+frozenremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="worldofpadman" type="Games" users="yakkety">
+  <title>World of Padman</title>
+  <description>First-person shooter</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ 	<b>World of Padman</b> (WoP) is an open source first-person shooter video game available in both English and German. Originally it was a modification for the game Quake III Arena titled PadMod created in the year 2004. After the source code for Quake III Arena was released, the game became standalone. The idea is based on the Padman comic strip for the magazine PlayStation Games created by the professional cartoon artist Andreas 'ENTE' (German for "Duck") Endres, who is also the man who made many of the maps included with the game in 1998. The current version runs on an enhanced version of the ioquake3 engine, which is based on the Quake III Arena engine.
+
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+wopinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+wopremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="warmux" type="Games" users="yakkety">
+  <title>WarMUX</title>
+  <description>Team-based arena game</description>
+  <info>
+ <![CDATA[
+ 	Have the mascots of your favorite free software titles battle it out in the <b>WarMUX</b> arena using dynamite, grenades, baseball bats and bazookas. Exterminate your opponent in a 2D environment with toon-style scenery.
+
+Each player controls the team of his choice (penguin, gnu, firefox, wilber, etc.) and must destroy his adversary using more or less casual weapons.
+
+Although some strategy is required to vanquish one's opponents, Wormux is pre-eminently a "convivial mass murder" game where, turn by turn, each member of each team attempts to deal maximum damage to his opponents. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+wormuxinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+wormuxremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="foobillard" type="Games" users="yakkety">
+  <title>Foobillard</title>
+  <description>Billiards game</description>
+  <info>
+ <![CDATA[
+ 	<b>Foobillard</b> is a billiards game with a three dimensional display. It supports 8-ball, 9-ball, carambol and snooker, as well as a computer opponent and network play. It is written using OpenGL, and has very high quality graphics and textures. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+fooinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+fooremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="scorched3d" type="Games" users="yakkety">
+  <title>Scorched3D</title>
+  <description>Scorched Earth clone</description>
+  <info>
+ <![CDATA[
+ 	<b>Scorched3D</b> is a cross-platform multiplayer modernisation of the classic DOS game Scorched Earth, "The Mother Of All Games", with fully destructible 3D landcapes and stunning visual effects. ]]>
+  </info>
+  <exec>
+<![CDATA[
+scorched3dinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+scorched3dremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="tileracer" type="Games" users="yakkety">
+  <title>Tile Racer</title>
+  <description>Stunt racing</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ 	<b>Tile Racer</b> is a freeware 3D stunt racing game which features realistic car physics and an in-game track editor to create new maps to race on. At the moment the players are able to race for the best lap time but a hotseat splitscreen mode and an AI enemy to race against are in the works. The game was started by two students  at the University of Applied Sciences in Hagenberg / Upper Austria and is now being further developed and maintained by them after graduation.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+tileinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+tileremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="vegastrike" type="Games" users="yakkety">
+  <title>Vega Strike</title>
+  <description>Action space sim</description>
+  <info>
+ <![CDATA[
+ 	<b>Vega Strike</b> is an open source 3D Action-Space-Sim that lets you trade, fight, and explore in a vast universe.
+Vega Strike is built on top of OpenGL and runs on Win/Lin/Mac platforms. Vega Strike (the game) is currently in a playable state, but both game engine and dataset are under continued development.]]> 
+  </info>
+  <exec>
+<![CDATA[
+vegainstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+vegaremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="neverball" type="Games" users="yakkety">
+  <title>Neverball</title>
+  <description>Tilt the floor, roll a ball</description>
+  <info>
+ <![CDATA[
+ Tilt the floor to roll a ball through an obstacle course before time runs out. <b>Neverball</b> is part puzzle game, part action game, and entirely a test of skill.
+
+Also found here is Neverputt, a hot-seat multiplayer miniature golf game using the physics and graphics of Neverball.  	]]> 
+  </info>
+  <exec>
+<![CDATA[
+neverballinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+neverballremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="orbitaleunuchssniper" type="Games" users="yakkety">
+  <title>Orbital Eunuchs Sniper</title>
+  <description>Top-down shoot-'em-up</description>
+  <info>
+ <![CDATA[
+ <b>Orbital Eunuchs Sniper</b> is an overhead shooting game. You (the Eunuch on the orbital laser platform) are tasked with protecting the VIPs (blue) from the terrorists (red)! ]]> 
+  </info>
+  <exec>
+<![CDATA[
+sniperinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+sniperremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="chessgames" type="Games" users="yakkety">
+  <title>Chess Games</title>
+  <description>Play several iterations of chess</description>
+  <info>
+ <![CDATA[
+ A slew of chess games. This option includes:
+ <ul>
+ <li>3dchess</li>
+ <li>Brutal Chess</li>
+ <li>DreamChess</li>
+ <li>GNOME Chess</li>
+ <li>Gtkboard</li>
+ </ul>
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+chessinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+chessremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="urbanterror" type="Games" users="yakkety">
+  <title>Urban Terror</title>
+  <description>First-person shooter based on Quake III Arena</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+ <b>Urban Terror</b>, commonly abbreviated as UrT or UT, is a total conversion mod of id Software's first-person shooter Quake III Arena by Silicon Ice Development (hereafter referred to as FrozenSand). It introduces many elements of the tactical shooter genre — team-driven gaming in more realistic environments.
+
+The game itself is free, but FrozenSand retains the rights; unauthorised modification and selling is not allowed. Since Urban Terror 4.0, the mod can also be played as a stand-alone game without Quake III Arena using the ioUrbanTerror engine, which is a rebranding of the ioquake3 engine distributed under GNU General Public License. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+urbaninstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+urbanremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="pingus" type="Games" users="yakkety">
+  <title>Pingus</title>
+  <description>Lemmings with penguins</description>
+  <info>
+ <![CDATA[
+<b>Pingus</b> is a free Lemmings&trade;-like puzzle game covered under the GNU GPL. It currently features 77 playable levels and runs on a wide variety of operating systems (Linux, Windows, Mac OS 10, etc.) ]]>
+  </info>
+  <exec>
+<![CDATA[
+pingusinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+pingusremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="ufoalieninvasion" type="Games" users="yakkety">
+  <title>UFO: Alien Invasion</title>
+  <description>Squad-based tactical strategy game</description>
+  <depends>getdebrepo</depends>
+  <info>
+ <![CDATA[
+<p><b>UFO: Alien Invasion</b> is a squad-based tactical strategy game in the tradition of the old X-COM PC games, but with a twist. The game combines military realism with hard science-fiction and the weirdness of an alien invasion. The carefully constructed turn-based system gives you pin-point control of your squad while maintaining a sense of pace and danger.</p>
+
+<p>Over the long term you will need to conduct research into the alien threat to figure out their mysterious goals and use their powerful weapons for your own ends. You will produce unique items and use them in combat against your enemies. If you like, you can even use them against your friends with the game's multiplayer functionality.</p>
+
+<p>'UFO: Alien Invasion'. Endless hours of gameplay -- absolutely free. </p>]]> 
+  </info>
+  <exec>
+<![CDATA[
+ufoaiinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+ufoairemove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="warzone2100" type="Games" users="yakkety">
+  <title>Warzone 2100</title>
+  <description>3D real-time strategy</description>
+  <info>
+ <![CDATA[
+Warzone 2100 is a 3D real-time strategy game set on a future Earth.
+
+Upon entering the game you land from your transport and establish your base. Here you conduct research, design and manufacture vehicles, build new structures and prepare your plans of global conquest. If the game goes badly you'll end up fighting last ditch battles here to defend your base from enemy attacks.
+
+Combat is frenetic, with extensive graphical effects and buildings giving rise to flying shrapnel and boulders. Within the game are many different structures and vehicles. From an initial Command Center, you then go on to build Resource Extractors to provide fuel for Power Generators, which in turn supply energy to Factories, Research Facilities and weapons to protect your base.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+warzoneinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+warzoneremove	
+					
+			]]>
+  </uninstall>
+ </option><!-- FIXME - dark-oberon's sourceforge got fucked, gotta find the source code for 1.0.2RC2 
+<option id="script64" type="Games" users="gutsy">
+  <title>Dark Oberon</title>
+  <description>Dark Oberon (~65MB)</description>
+  <info>
+ <![CDATA[
+Dark Oberon is an open source real-time strategy game similar to Warcraft II released under GPL. It has got unique graphics - textures created from shots of real models made out of plasticine!  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+darkinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+darkremove	
+					
+			]]>
+  </uninstall>
+ </option> -->
+<option id="geckomediaplayer" type="Media Players and Editors" users="yakkety">
+  <title>GNOME MPlayer and Gecko Media Player</title>
+  <description>Play many media formats in your browser</description>
+  <info>
+   <![CDATA[ 
+	<p>MPlayer is a movie player which runs on many different architectures. 
+	It plays a huge variety of media formats.</p>
+	<p>This option will install <b>GNOME MPlayer</b> (a desktop client for MPlayer)
+	as well as <b>Gecko Media Player</b>, a browser plugin allowing you to watch any file
+	that MPlayer supports straight from your Web browser.</p>
+	]]>
+  </info>
+  <exec>
+<![CDATA[
+firefoxmplayerplugin
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+firefoxmplayerpluginremove	
+					
+			]]>
+  </uninstall>
+</option>
+<option id="clamantivirus" type="Security" users="yakkety">
+  <title>ClamAV</title>
+  <description>Keep your computer safe from malware</description>
+  <info>
+ <![CDATA[
+ ClamAV&reg; is an open source (GPL) anti-virus engine used in a variety of situations including e-mail scanning, Web scanning, and end point security. It provides a number of utilities including a flexible and scalable multi-threaded daemon, a command line scanner and an advanced tool for automatic database updates.
+]]>
+  </info>
+  <exec>
+<![CDATA[
+clamavinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+clamavremove
+					
+			]]>
+  </uninstall>
+ </option>  
+<option id="k9copy" type="Burning and Ripping" users="yakkety">
+  <title>K9Copy</title>
+  <description>Create and copy home videos</description>
+  <info>
+  <![CDATA[
+	<b>K9copy</b> is a free, open source DVD backup and DVD authoring program for Unix-like operating systems such as GNU/Linux and BSD. ]]>
+  </info>
+  <exec>
+<![CDATA[
+k9copyinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+k9copyremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <!--
+ 
+ I'm leaving this one here for now in case it's salvageable. The program installs if you download a gazillion dependencies
+ and change one of gstreamer0.10-plugins-good's dependencies, but it doesn't actually sign in to my Messenger account. I know the service
+ has been discontinued, but I was kind of hoping it'd be able to connect to Microsoft's servers and show me my old contacts list... :(
+ 
+<option id="script69" type="Chat Clients" users="gutsy">
+  <title>AMSN</title>
+  <description>Downloads and installs amsn chat client</description>
+  <info>
+<![CDATA[
+	 <b>aMSN</b> is a free open source MSN Messenger clone, with features such as:
+<ul>
+    <li>Offline Messaging</li>
+    <li> Voice Clips</li>
+    <li> Display pictures</li>
+    <li> Custom emoticons</li>
+    <li> Multi-language support (around 40 languages currently supported)</li>
+    <li> Webcam support</li>
+    <li> Sign in to more than one account at once</li>
+    <li> Full-speed File transfers</li>
+    <li> Group support</li>
+    <li> Normal, and animated emoticons with sounds</li>
+    <li> Chat logs</li>
+    <li> Timestamping</li>
+    <li> Event alarms</li>
+    <li> Conferencing support</li>
+    <li> Tabbed chat windows</li><ul>]]>    
+  </info>
+  <exec>
+<![CDATA[
+amsninstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+amsnremove	
+					
+			]]>
+  </uninstall>
+ </option> -->
+<option id="pidgin" type="Chat Clients" users="yakkety">
+  <title>Pidgin</title>
+  <description>Chat with all your accounts from one place</description>
+  <info>
+<![CDATA[
+	<b>Pidgin</b> is a multi-protocol Instant Messaging client that allows you to use all of your IM accounts at once.
+	It is compatible with such services as Facebook Messenger and AIM.
+ ]]>    
+  </info>
+  <exec>
+<![CDATA[
+pidgininstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+pidginremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="kvirc" type="Chat Clients" users="yakkety">
+  <title>KVIrc</title>
+  <description>Communicate using IRC</description>
+  <info>
+<![CDATA[
+	<b>KVIrc</b> is a free portable chat client using the excellent IRC protocol, popular for tech support chat. ]]>
+  </info>
+  <exec>
+<![CDATA[
+kvircinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+kvircremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="themeheaven" type="Eyecandy" users="yakkety">
+  <title>Theme Heaven</title>
+  <description>Additional themes, fonts, and theme engines</description>
+  <info>
+ <![CDATA[
+	Installs Tons of additional fonts / theme engines &amp; themes. ]]>     
+  </info>
+  <exec>
+<![CDATA[
+themesinstall					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+themesremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script73" type="Games" users="gutsy">
+  <title>Chromium B.S.U.</title>
+  <description>Top-down space shoot-'em-up</description>
+  <info>
+ <![CDATA[
+Chromium B.S.U. 
+is a fast paced, arcade-style, 
+top-scrolling space shooter.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+chromiuminstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+chromiumremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script74" type="Media Players and Editors" users="gutsy">
+ <title>Dragon Player</title>
+  <description>Dragon Player</description>
+  <info>
+  <![CDATA[
+	<p><b>Dragon Player</b> Dragon Player is a simple video player for KDE 4.<h3>Features</h3>
+
+<ul>
+<li>Simple interface that does not get in the way</li>
+<li>Resumes where you left off when replaying a video</li>
+<li>Support for subtitles</li>
+<li>Video display settings (brightness, contrast)</li>
+</ul>
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+dragoninstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+dragonremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script75" type="Environments" users="gutsy">
+ <title>Kubuntu Environment</title>
+  <description>Installs Kubuntu alongside Ubuntu</description>
+  <info>
+  <![CDATA[
+	<p><b>Kubuntu</b> is a derivative of Ubuntu aimed at users transitioning from Windows. It provides the KDE desktop environment, which looks and behaves very similarly to Windows, instead of the more unusual Unity.<br />
+	This option will install Kubuntu alongside your existing Ubuntu desktop. You will be able to choose between environments on the login screen.</p> ]]>
+  </info>
+  <exec>
+<![CDATA[
+kubuntuinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+kubunturemove
+			]]>
+  </uninstall>
+ </option>
+<option id="xubuntu" type="Environments" users="yakkety">
+ <title>XFCE 4</title>
+  <description>A lightweight and user-friendly desktop environment</description>
+  <info>
+  <![CDATA[
+	<p><b>XFCE</b> is a desktop environment aimed at users of low-end computers. It is lightweight and user-friendly.</p>
+	<p>This option will install XFCE 4 alongside your existing desktop environment. You will be able to choose between environments on the login screen.</p>
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+xubuntuinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+xubunturemove
+			]]>
+  </uninstall>
+ </option>
+ <option id="edubuntu" type="Environments" users="yakkety">
+ <title>Edubuntu Environment</title>
+  <description>Installs Edubuntu onto Ubuntu</description>
+  <info>
+  <![CDATA[
+	<p><b>Edubuntu</b> is a derivative of Ubuntu aimed at schools and homes, for use by teachers, parents, and children.<br />
+	This option will install everything included in Edubuntu straight onto your existing Ubuntu desktop.</p>
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+eubuntuinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+eubunturemove
+			]]>
+  </uninstall>
+ </option>
+<option id="script78" type="Media Players and Editors" users="gutsy">
+ <title>Amarok Player</title>
+  <description>Amarok Player</description>
+  <info>
+  <![CDATA[
+	<p><b>Amarok Player</b> Amarok is the music player for Linux and Unix with an intuitive interface. Amarok makes playing the music you love easier than ever before - and looks good doing it. 
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+amarokinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+amarokremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script79" type="File Sharing" users="gutsy">
+  <title>Transmission</title>
+  <description>Installs Transmission torrent client</description>
+  <info>
+ <![CDATA[ 
+	<b>Transmission</b><br><br>Transmission is a fast, easy, and free multi-platform BitTorrent client with a focus on being lightweight yet feature-filled.  ]]>
+  </info>
+  <exec>
+<![CDATA[
+transmissioninstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+transmissionremove	
+					
+			]]>
+  </uninstall>
+ </option> 
+<option id="script80" type="Media Players and Editors" users="gutsy">
+ <title>VLC Player</title>
+  <description>VLC Multimedia Player (~10MB)</description>
+  <info>
+  <![CDATA[
+	<p><b>VLC Player</b> VLC media player - the cross-platform media player and streaming server
+
+VLC media player is a highly portable multimedia player for various audio and video formats (MPEG-1, MPEG-2, MPEG-4, DivX, mp3, ogg, ...) as well as DVDs, VCDs, and various streaming protocols. It can also be used as a server to stream in unicast or multicast in IPv4 or IPv6 on a high-bandwidth network. 
+ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+vlcinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+vlcremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script81" type="Security" users="gutsy">
+  <title>Firestarter</title>
+  <description>Installs Firestarter firewall</description>
+  <info>
+ <![CDATA[
+ 	<b>Firestarter</b><br></br>
+
+Firestarter is an Open Source visual firewall program. The software aims to combine ease of use with powerful features, therefore serving both Linux desktop users and system administrators.
+
+We strongly believe that your job is to make the high level security policy decisions and ours is to take care of the underlying details. This is a departure from your typical Linux firewall, which has traditionally required arcane implementation specific knowledge.   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+firestarterinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+firestarterremove
+					
+			]]>
+  </uninstall>
+ </option>  
+<option id="script82" type="Games" users="gutsy">
+  <title>Gridwars</title>
+  <description>Installs Gridwars game</description>
+  <info>
+ <![CDATA[
+ 	<b>Gridwars</b><br></br>
+
+Grid Wars2 is basically a PC version of the popular Xbox 360 game, Geometry Wars. Made by Mark Incitti, this release features less special effects compared to the original but also new controls to cater for players who do not own a dual analog joypad.    ]]> 
+  </info>
+  <exec>
+<![CDATA[
+gridwarsinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gridwarsremove
+					
+			]]>
+  </uninstall>
+ </option>  
+<option id="script83" type="Utilities" users="gutsy">
+  <title>Acetone ISO 2</title>
+  <description>Installs Acetone ISO 2 (32 bit only)</description>
+  <info>
+ <![CDATA[
+ 	<b>Acetone ISO</b><br></br>
+
+Program from GUI that can mount and unmount ISO and MDF(if iso-9660 standard),Convert BIN/CUE, MDF, DAT, NRG, CCD/IMG, CDI, XBOX, B5i, PDI, DAA to ISO, Burn Your ISO, CUE, TOC images directly in K3b, verify md5sum of image files &amp; create md5sum file, ability to create ISO from Folder and CD/DVD, Mount, unmount, create ISO from Folder or CD/DVD from servicemenu, Play a DVD-Movie ISO with Kaffeine or VLC  from GUI, Split ISOs in smaller files ad merge them, Force the mount/eject of a CD/DVD media in your device and compress ISO files using p7zip. Moreover with AcetoneISO you can  estract files from an ISO file to a folder.    ]]> 
+  </info>
+  <exec>
+<![CDATA[
+acetoneinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+acetoneremove
+					
+			]]>
+  </uninstall>
+ </option>  
+<option id="script84" type="Games" users="gutsy">
+  <title>Actioncube</title>
+  <description>Installs Actioncube game</description>
+  <info>
+ <![CDATA[
+ 	<b>Actioncube</b><br></br>
+
+ActionCube is a total conversion of Wouter van Oortmerssen´s FPS Cube.
+ Set in a realistic looking environment, gameplay is fast and arcade-like.
+This game is all about team oriented multiplayer fun.    ]]> 
+  </info>
+  <exec>
+<![CDATA[
+actioncubeinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+actioncuberemove
+					
+			]]>
+  </uninstall>
+ </option>  
+<option id="script85" type="Office" users="gutsy">
+  <title>Gourmet</title>
+  <description>Installs Gourmet Recipe Manager</description>
+  <info>
+   <![CDATA[
+	<p><b>Gourmet</b> Gourmet Recipe Manager is a gtk-based recipe organizer and shopping
+list generator intended for the GNOME desktop environment (though it
+does not need all the GNOME libraries). Gourmet can import
+Mealmaster(tm) files and can export recipes in a number of formats,
+including text, RTF and web pages. Gourmet also can calculate nutritional
+information for recipes.]]>  
+  </info>
+  <exec>
+<![CDATA[
+gourmetinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gourmetremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script86" type="Eyecandy" users="gutsy">
+  <title>Avant Window Navigator</title>
+  <description>Installs Avant Window Navigator</description>
+  <info>
+   <![CDATA[
+	<p><b>Avant Window Navigator</b> A MacOS X like panel for GNOME
+The avant-window-navigator is a MacOS X like panel for the GNOME Desktop
+written in C.  In addition to launchers that can be dragged onto the bar,
+it features a taskbar that behaves similarly to the Mac OSX dock. The window
+navigator uses the composite extension for transparency and other effects.]]>  
+  </info>
+  <exec>
+<![CDATA[
+avantinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+avantremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script87" type="Media Players and Editors" users="gutsy">
+ <title>Lives</title>
+  <description>Lives video editing system</description>
+  <info>
+  <![CDATA[
+	<p><b>Lives</b> - Video editng system</p>
+
+LiVES lets you start editing and making video right away, without having
+to worry about formats, frame sizes, or framerates.
+LiVES will let you start creating your own tools, utilities and effects
+via the built in RFX builder.
+
+http://lives.sourceforge.net/ ]]> 
+  </info>
+  <exec>
+<![CDATA[
+livesinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+livesremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script88" type="Utilities" users="gutsy">
+ <title>Startup Manager</title>
+  <description>Installs Startup manager</description>
+  <info>
+  <![CDATA[
+	<p><b>Startup Manager</b> - Grub and Splash screen configuration</p>
+
+StartUp-Manager configures some settings for grub and splash screens
+(Currently only Usplash). It provides an easy to use interface.
+
+It is originally a Ubuntu project, adapted for Debian. ]]> 
+  </info>
+  <exec>
+<![CDATA[
+startupinstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+startupremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script89" type="Tweaks" users="gutsy">
+ <title>BUM</title>
+  <description>Installs BUM - Bootup manager</description>
+  <info>
+  <![CDATA[
+	<p><b>BUM</b> - Bootup Manager</p>
+
+graphical runlevel editor
+Boot-Up Manager is a graphical tool to allow easy configuration
+of init services in user and system runlevels, as far as changing
+Start/Stop services priority.
+Homepage: <a href="http://www.marzocca.net/linux/bum.html">BUM</a> ]]> 
+  </info>
+  <exec>
+<![CDATA[
+buminstall
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+bumremove
+			]]>
+  </uninstall>
+ </option>
+<option id="script90" type="Tweaks" users="gutsy">
+  <title>Bootchart</title>
+  <description>Installs Bootchart</description>
+  <info>
+ <![CDATA[
+ 	Bootchart is a tool for performance analysis and visualization of the GNU/Linux boot process. Resource utilization and process information are collected during the boot process and are later rendered in a PNG, SVG or EPS encoded chart.   ]]> 
+  </info>
+  <exec>
+<![CDATA[
+bootchartinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+bootchartremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+<option id="script91" type="Programming Tools" users="gutsy">
+  <title>Bluefish Editor</title>
+  <description>Bluefish - Advanced Gtk+ HTML editor</description>
+  <info>
+<![CDATA[
+	<b>Advanced Gtk+ HTML editor</b><br><br>
+Bluefish is a GTK+ HTML editor for the experienced web designer.
+Its features include nice wizards for startup, tables and frames; a
+fully featured image insert dialog; thumbnail creation and automatically
+linking of the thumbnail with the original image; and configurable HTML
+syntax highlighting.
+
+For validation to work you need weblint and xmllint. For preview to work,
+you need a web browser that can view local files given to it
+on the command line. ]]>
+  </info>
+  <exec>
+<![CDATA[
+bluefishinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+bluefishremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script92" type="Programming Tools" users="gutsy">
+  <title>Screem Editor</title>
+  <description>Screem - Advanced Gtk+ HTML editor</description>
+  <info>
+<![CDATA[
+	<b>Screem - A GNOME website development environment</b> 
+SCREEM is a tag-based Web page editor which aims not only to aid in creating
+Web pages, but also to provide useful site maintenance facilities,
+including automatic link updating and site upload facilities. SCREEM has
+more than just the usual HTML tags, with features for including Javascript,
+PHP, cascading style sheets, etc within your site.
+
+It is written for use with the GNOME (http://www.gnome.org) desktop
+environment. ]]>
+  </info>
+  <exec>
+<![CDATA[
+screeminstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+screemremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script93" type="Programming Tools" users="gutsy">
+  <title>Anjuta</title>
+  <description>Anjuta - A GNOME development IDE, for C/C++</description>
+  <info>
+<![CDATA[
+	<b>Anjuta - A GNOME development IDE, for C/C++</b> <br><br>
+This IDE for C/C++ and GNOME/Gtk+ applications has features that enable easy
+debugging and management of code. It also integrates with glade and CVS.
+
+http://www.anjuta.org ]]>
+  </info>
+  <exec>
+<![CDATA[
+anjutainstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+anjutaremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script94" type="Programming Tools" users="gutsy">
+  <title>Glade 3</title>
+  <description>Installs Glade 3</description>
+  <info>
+<![CDATA[
+	<b>Glade 3 - GTK+ 2 User Interface Builder (with GNOME 2 support) </b> <br><br>
+<p>Glade is a RAD tool to enable quick and easy development of user
+interfaces for the GTK+ 2 toolkit.  It is one of the tools used to develop this application.</p>
+
+<p>The user interfaces designed in Glade are stored in the well-known
+XML format, enabling easy integration with external tools. You will
+probably want to use it with tools such as libglade, which can load
+the XML files and create the interfaces at runtime.</p>
+
+<p>This package include the module that allows Glade to provide GNOME
+widgets in its pallete.</p>
+
+Homepage: <a href="http://glade.gnome.org/">Glade 3</a>. ]]>
+  </info>
+  <exec>
+<![CDATA[
+gladeinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gladeremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script95" type="Programming Tools" users="gutsy">
+  <title>Quanta Plus</title>
+  <description>Installs Quanta Plus - web development environment for KDE</description>
+  <info>
+<![CDATA[
+	<b>Quanta Plus - web development environment for KDE (with GNOME 2 support) </b> <br><br>
+<p>Quanta Plus is a web development environment for working with HTML
+and associated languages. It strives to be neutral and transparent
+to all markup languages, while supporting popular web-based scripting
+languages, CSS and other emerging W3C recommendations.</p>
+
+<p>Quanta Plus supports many external components, debuggers and other tools
+for web development, several of which are shipped with the KDE web
+development module.</p>
+
+<p>Quanta Plus is not in any way affiliated with any commercial versions
+of Quanta. The primary coders from the original team left the GPL'd
+version to produce a commercial product.</p>
+
+<p>This package is part of KDE, as a component of the KDE web development module.
+See the 'kde' and 'kdewebdev' packages for more information.</p>
+
+Homepage: <a href="http://quanta.sourceforge.net">Quanta</a>. ]]>
+  </info>
+  <exec>
+<![CDATA[
+quantainstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+quantaremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script96" type="Burning and Ripping" users="gutsy">
+  <title>DVD Styler</title>
+  <description>Installs DVD Styler - crossplatform DVD Authoring System</description>
+  <info>
+<![CDATA[
+	<b>DVD Styler - crossplatform DVD Authoring System </b> <br><br>
+<p>DVDstyler is a crossplatform DVD Authoring System.</p>
+The main DVDStyler features are:<UL>
+     <LI> you can drag and drop MPEG files directly</li>
+     <LI> you can import image file for background</li>
+     <LI> you can create NTSC/PAL menus</li>
+     <LI> you can place text and images anywhere on the menu screen</li>
+     <LI> you can change font/color</li>
+     <LI> you can put basic text buttons, change font/color and background color</li>
+     <LI> you can copy and paste any menu object</li>
+     <LI> you can set chapters for each movie</li>
+     <LI> you can change post command for each movie.</li> ]]>
+  </info>
+  <exec>
+<![CDATA[
+dvdstylerinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+dvdstylerremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script97" type="Burning and Ripping" users="gutsy">
+  <title>Man DVD</title>
+  <description>Installs ManDVD - tool for generating video DVDs</description>
+  <info>
+<![CDATA[
+	<b>ManDVD - tool for generating video DVDs</b> <br><br>
+<p>ManDVD is a multimedia application for creating video DVDs. Its interface is very clean and easy to use and allows creating a full-featured DVD in a very short time. Besides creating DVDs, ManDVD can also generate slideshows from images and provides basic features for editing the video file before encoding into the DVD structure.</p> ]]>
+  </info>
+  <exec>
+<![CDATA[
+mandvdinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+mandvdremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script98" type="Utilities" users="gutsy">
+  <title>Sysinfo</title>
+  <description>Installs Sysinfo - displays computer and system information.</description>
+  <info>
+<![CDATA[
+	<b>Sysinfo - displays computer and system information.</b> <br><br>
+<p>1. System: Linux distribution release, GNOME version, Kernel version, Gcc
+version, Xorg version, hostname.<br><br>
+2. CPU: Vendor identification, model name, frequency, level2 cache, bogomips,
+model numbers, flags.<br>
+3. Memory: Total system memory RAM, free memory, swap space total &amp; free,
+cached, active, inactive memory.<br>
+4. Storage: IDE interface, all IDE devices(disks, cd/dvd roms), SCSI devices.<br>
+5. Hardware: motherboard, graphic card, sound card, network devices.<br>
+6. NVIDIA graphic card: only with NVIDIA display driver installed.</p> ]]>
+  </info>
+  <exec>
+<![CDATA[
+sysinfoinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+sysinforemove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script99" type="Utilities" users="gutsy">
+  <title>Hardinfo</title>
+  <description>Installs Hardinfo - Displays system information.</description>
+  <info>
+<![CDATA[
+	<b>Hardinfo - Displays system information.</b> <br><br>
+<p>HardInfo is a small application that displays information about your
+hardware and operating system. Currently it knows about PCI, ISA PnP, USB,
+IDE, SCSI, Serial and parallel port devices.</p> ]]>
+  </info>
+  <exec>
+<![CDATA[
+hardinfoinstall	
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+hardinforemove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script100" type="Media Players and Editors" users="gutsy">
+  <title>Banshee</title>
+  <description>Installs Banshee - Media Player</description>
+  <info>
+   <![CDATA[
+	<p><b>Banshee - Media Player</b><br><p>Audio Management and Playback application
+Banshee is an audio management and playback application for the GNOME
+Desktop, allowing users to import audio from CDs, search their library,
+create playlists of selections of their library, sync music to/from iPods,
+and burn selections to a CD.</p>
+
+http://banshee-project.org ]]>       
+  </info>
+  <exec>
+<![CDATA[
+bansheeinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+bansheeremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script101" type="Eyecandy" users="gutsy">
+  <title>Ultimate Edition Themes version .0.0.5</title>
+  <description>Installs Ultimate Edition Themes, Logins GDM, Wallpapers, Icons and Usplashes (500120MB)</description>
+  <info>
+   <![CDATA[
+<b>Ultimate Edition Theme Pack</b>
+<p>All Themes, Logins (GDM), Wallpapers, Icons &amp; Usplashes used in all Ultimate edition releases from 1.3 up.</p>
+<p><b>Features</b>:</p>
+<UL>
+<li>3 Ultimate Edition usplashes (18 - 32 bit autodetects architecture)</li>
+<li>44 Wallpapers</li>
+<li>15 GDM logins</li>
+<li>34 Icon sets</li>
+<li>107 GTK / Metacity themes</li>
+<li>49 Emerald themes</li>
+<li>5 Cursor sets</li>
+<li>2 Sound schemes</li>
+<li>KDE Themes and wallpapers added.</li>
+<UL>
+<p>For information please visit <a href="http://forumubuntusoftware.info/viewtopic.php?f=43&t=1670&sid=eca78fcf0f7d8303d049d0e0aa82d67a">Ubuntu Software Forum</a>.</p> 
+  ]]>       
+  </info>
+  <exec>
+<![CDATA[
+ueinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+ueremove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="script102" type="Beta" users="gutsy">
+  <title>Compiz Fusion</title>
+  <description>Compiz Fusion - PPA latest build (~19MB)</description>
+  <info>
+ <![CDATA[
+ 	<b><b>Compiz Fusion (Cutting edge)</b><br><p>Installs PPA repo driven compiz fusion, plugins emerald and fusion icon.  Compiz Fusion is the result of a merge between the well-known Beryl composite window manager and Compiz Extras, a community set of improvements to the Compiz composite window manager. Compiz Fusion aims to provide an easy and fun-to-use windowed environment, allowing use of the graphics hardware to render each individual window and the entire screen, to provide some impressive effects, speed and usefulness. The first Compiz Fusion developer release was Compiz Fusion 0.5.2 on August 13th 2007, shortly after Compiz 0.5.2 was released. First stable release of Compiz Fusion is 0.6.0 released on October 20 2007.  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+fusioniconinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+fusioniconremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script103" type="Virtualisation" users="gutsy">
+  <title>Qemu, Qemulator Launcher and accelerator</title>
+  <description>Qemu, Qemulator Launcher and accelerator (~19MB)</description>
+  <info>
+ <![CDATA[
+ 	<b>Qemu, Qemulator Launcher and accelerator</b><br></br>
+
+QEMU is a generic and open source machine emulator and virtualizer.
+
+When used as a machine emulator, QEMU can run OSes and programs made for one machine (e.g. an ARM board) on a different machine (e.g. your own PC). By using dynamic translation, it achieves very good performances.
+
+When used as a virtualizer, QEMU achieves near native performances by executing the guest code directly on the host CPU. A host driver called the QEMU accelerator (also known as KQEMU) is needed in this case. The virtualizer mode requires that both the host and guest machine use x86 compatible processors.
+
+The supported host and target CPUs are listed in the status page.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+qemuinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+qemuremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script104" type="Miscellaneous" users="gutsy">
+  <title>Yakuake</title>
+  <description>Yakuake is Yet Another Kuake KDE terminal emulator. (~5MB)</description>
+  <info>
+ <![CDATA[
+ 	<b>Yakuake</b><br></br>
+
+Yakuake is Yet Another Kuake KDE terminal emulator.
+
+Here are some key features of "Yakuake":
+
+· mouse wheel tabs navigation
+· multiple launches bug patched
+· tabs increasing number bug solved
+· sessions start as login shells
+· paste ability (shift+inser by default)
+· great improvement in session creation (no more ugly symbols at start)
+· dcop client added :
+· the id of the current session is contained in the shell variable $DCOP_YAKUAKE_SESSION
+· see DCOPInterface for functionalities
+
+Multitabbed konsole can be simulated by using 'screen' which is a great software I encourage you to test as soon as possible since its functionalties are greater than you think...
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+yakuakeinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+yakuakeremove	
+					
+			]]>
+  </uninstall>
+</option>
+ <option id="script105" type="Desktop Publishing" users="gutsy">
+  <title>Blender, Yafray and Inkscape</title>
+  <description>Vector based graphics editors.</description>
+  <info>
+ <![CDATA[
+ 	<b>Blender, Yafray and Inkscape</b><br></br>
+
+Vector based graphics editors.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+blenderinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+blenderremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script106" type="Utilities" users="gutsy">
+  <title>Wifi Tools and Ultilties</title>
+  <description>Wifi Managers and utilitys to aid in setting up wireless.</description>
+  <info>
+ <![CDATA[
+ 	<b>Wifi Tools and Utilities</b><br></br>
+
+Wifi Managers and utilitys to aid in setting up wireless.  Includes wifi-radar kwifimanager madwifi-tools ndiswrapper-common and ndisgtk.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+wifiinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+wifiremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script107" type="Utilities" users="gutsy">
+  <title>T.V. capture card software</title>
+  <description>Tools and players for capture cards.</description>
+  <info>
+ <![CDATA[
+ 	<b>Capture card software</b><br></br>
+
+Tools and players for capture cards, current players / tools include: tvtime xtv mythtv xawtv and zapping.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+tvcaptureinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+tvcaptureremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script108" type="Desktop Publishing" users="gutsy">
+  <title>Abiword</title>
+  <description>Abiword.</description>
+  <info>
+ <![CDATA[
+ 	<b>Abiword</b><br></br>
+
+AbiWord is a free word processing program similar to Microsoft® Word. It is suitable for a wide variety of word processing tasks. 
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+abiwordinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+abiwordremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script109" type="Programming Tools" users="gutsy">
+  <title>GPHP Editor</title>
+  <description>Editor for writing PHP based webpages, development environment for PHP/HTML/CSS.</description>
+  <info>
+ <![CDATA[
+ 	<b>GPHP Editor</b><br></br>
+development environment for PHP/HTML/CSS
+gPHPEdit is a GNOME2 editor that is dedicated to editing
+PHP files and other supporting files, like HTML/CSS. It
+has support for drop-down function lists, hints showing
+parameters, and syntax highlighting.
+
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+gphpeditinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gphpeditremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script110" type="Programming Tools" users="gutsy">
+  <title>Jedit Editor</title>
+  <description>Jedit Editor Auto indent, and syntax highlighting for more than 130 languages.</description>
+  <info>
+ <![CDATA[
+ 	<b>JEdit Editor</b><br></br>
+jEdit is a mature programmer's text editor with hundreds (counting the time developing plugins) of person-years of development behind it. To download, install, and set up jEdit as quickly and painlessly as possible, go to the Quick Start page.
+
+While jEdit beats many expensive development tools for features and ease of use, it is released as free software with full source code, provided under the terms of the GPL 2.0.
+
+The jEdit core, together with a large collection of plugins is maintained by a world-wide developer team.
+
+Some of jEdit's features include:
+
+    * Written in Java, so it runs on Mac OS X, OS/2, Unix, VMS and Windows.
+    * Built-in macro language; extensible plugin architecture. Dozens of macros and plugins available.
+    * Plugins can be downloaded and installed from within jEdit using the "plugin manager" feature.
+    * Auto indent, and syntax highlighting for more than 130 languages.
+    * Supports a large number of character encodings including UTF8 and Unicode.
+    * Folding for selectively hiding regions of text.
+    * Word wrap.
+    * Highly configurable and customizable.
+    * Every other feature, both basic and advanced, you would expect to find in a text editor. See the Features page for a full list.
+
+
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+jeditinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+jeditremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script111" type="Burning and Ripping" users="gutsy">
+  <title>DeVeDe</title>
+  <description>DeVeDe - DVD Movie creator</description>
+  <info>
+ <![CDATA[
+ 	<b>DeVeDe - DVD Movie creator</b><br></br>
+DeVeDe is a program to create video DVDs and CDs (VCD, sVCD or CVD), suitables for home players, from any number of video files, in any of the formats supported by Mplayer. The big advantage over other utilites is that it only needs Mplayer, Mencoder, DVDAuthor, VCDImager and MKisofs (well, and Python, PyGTK and PyGlade), so its dependencies are really small.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+devedeinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+devederemove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script112" type="Burning and Ripping" users="gutsy">
+  <title>LemonRip</title>
+  <description>Lemonrip - DVD Ripper</description>
+  <info>
+ <![CDATA[
+ 	<b>Lemonrip - DVD Ripper</b><br></br>
+Lemonrip is an Linux application for ripping and encoding DVD into AVI files. Design of application is using a quality profiles instead of technical settings. In mostly cases everything you need to do is pick a title of DVD, choose your language and let it work.
+
+Features:
+
+    * written in Perl::GTK using mencoder as frontend
+    * qulity profiles, takes a care of all setting jobs
+    * language selection (subtitles are encoded in a movie only at this time)
+    * ripping into AVI files using XVID and X264 codecs with best qulity switchies enabled (default profiles)
+    * automatic cropping and scaling with preview
+    * options to eject DVD tray or turn off a computer when encoding is finished  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+lemonripinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+lemonripremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script113" type="Burning and Ripping" users="gutsy">
+  <title>Iso Master</title>
+  <description>ISO Master - Create or customise CD/DVD images</description>
+  <info>
+ <![CDATA[
+ 	<b>ISO Master - Create or customise CD/DVD images</b><br></br>
+
+
+Use ISO Master to:
+
+- Create or customise CD/DVD images
+
+- Make Bootable CDs/DVDs
+
+ISO images are great for distributing data files, software, and demos online.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+isomasterinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+isomasterremove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="script114" type="Burning and Ripping" users="gutsy">
+  <title>Brasero</title>
+  <description>Brasaro - Brasero is a CD and DVD writing / burning application.</description>
+  <info>
+ <![CDATA[
+ 	<b>Brasero - Brasero is a CD and DVD writing / burning application. </b><br></br>
+
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+braseroinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+braseroremove	
+					
+			]]>
+  </uninstall>
+</option>
+ <option id="script115" type="Financial" users="gutsy">
+  <title>Gnucash</title>
+  <description>GNU Cash - Financial software.</description>
+  <info>
+ <![CDATA[
+ 	<b>GNU Cash - Financial software. </b><br></br>
+GnuCash is personal and small-business financial-accounting software, freely licensed under the GNU GPL and available for GNU/Linux, BSD, Solaris, Mac OS X and Microsoft Windows.
+
+Designed to be easy to use, yet powerful and flexible, GnuCash allows you to track bank accounts, stocks, income and expenses. As quick and intuitive to use as a checkbook register, it is based on professional accounting principles to ensure balanced books and accurate reports.
+
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+gnucashinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+gnucashremove	
+					
+			]]>
+  </uninstall>
+</option>
+ <option id="script116" type="Financial" users="gutsy">
+  <title>Kmymoney2</title>
+  <description>Kmymoney2 - Financial software.</description>
+  <info>
+ <![CDATA[
+ 	<b>Kmymoney2 - Financial software. </b><br></br>
+KMyMoney
+
+the BEST Personal Finance Manager for Linux Users, full stop.
+
+The ultimate objectives of KMyMoney are...
+
+    * Accuracy. Using time tested double entry accounting principles KMyMoney can help ensure that your finances are kept in correct order.
+    * Ease of use. KMyMoney strives to be the easiest open source personal finance manager to use, especially for the non-technical user.
+    * Familiar Features. KMyMoney intends to provide all important features found in the commercially-available, personal finance managers. The current release is closer than ever to that goal and more improvements are already planned or being tested.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+kmymoneyinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+kmymoneyremove	
+					
+			]]>
+  </uninstall>
+</option>
+ <option id="script117" type="File Sharing" users="gutsy">
+  <title>KTorrent</title>
+  <description>Ktorrent - Torrent software.</description>
+  <info>
+ <![CDATA[
+ 	<b>Ktorrent - Torrent software. </b><br></br>
+KTorrent is a BitTorrent client for KDE and is released under the GNU GPL License.
+
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+ktorrentinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+ktorrentremove	
+					
+			]]>
+  </uninstall>
+</option>
+<option id="terminator" type="Miscellaneous" users="yakkety">
+  <title>Terminator</title>
+  <description>Terminator - multi window terminal.</description>
+  <info>
+ <![CDATA[
+	Installs Terminator. ]]>     
+  </info>
+  <exec>
+<![CDATA[
+terminatorinstall					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+terminatorremove	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script119" type="Media Players and Editors" users="gutsy">
+  <title>Amarok</title>
+  <description>Installs Amarok media Player</description>
+  <info>
+   <![CDATA[
+<b>Amarok</b><br><p>Arguably The greatest media player in linux.</p> ]]>       
+  </info>
+  <exec>
+<![CDATA[
+amarokinstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+amarokuninstall	
+					
+			]]>
+  </uninstall>
+ </option>
+<option id="script120" type="Eyecandy" users="gutsy">
+  <title>Ultimate Edition Themes Pack 2.0</title>
+  <description>Installs Ultimate Edition Themes, Logins GDM, Wallpapers, Icons and Usplashes (40MB)</description>
+  <info>
+   <![CDATA[
+<b>Ultimate Edition Theme Pack 2.0</b>
+<p>Entire theme set for the upcoming Ultimate Edition 2.0 release.  3 Themes (black, red and green), grub splash, logins (GDM), wallpapers, icons, emerald themes & Usplashes.</p>
+<p>For information please visit <a href="http://forumubuntusoftware.info/viewtopic.php?f=43&t=1670&sid=eca78fcf0f7d8303d049d0e0aa82d67a">Ubuntu Software Forum</a>.</p> 
+  ]]>       
+  </info>
+  <exec>
+<![CDATA[
+ue2install
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+ue2remove	
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="script121" type="Desktop Publishing" users="gutsy">
+  <title>OpenOffice</title>
+  <description>Apache OpenOffice</description>
+  <depends>oraclejava</depends>
+  <info>
+ <![CDATA[
+ 	<b>Apache OpenOffice</b><br></br>
+
+OpenOffice is the leading open source office software suite for word processing, spreadsheets, presentations, graphics, databases and more. It is available in many languages  and works on all common computers. It stores all your data in an international open standard format and can also read and write files from other common office software packages. It can be downloaded and used completely free of charge for any purpose. 
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+office3install
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+office3remove	
+					
+			]]>
+  </uninstall>
+ </option>    
+ <option id="steam" type="Games" users="yakkety">
+	   <title>Steam</title>
+  <description>Steam - The Ultimate Online Game Platform</description>
+  <info>
+ <![CDATA[
+ 	<h3>The Ultimate Online Game Platform</h3>
+<div style="color: red;">Installing this indicates that you accept Steam's license agreement.</div>
+<b>Steam</b> is a digital distribution platform developed by Valve Corporation offering digital rights management (DRM), multiplayer gaming and social networking services. Steam provides the user with installation and automatic updating of games on multiple computers, and community features such as friends lists and groups, cloud saving, and in-game voice and chat functionality.
+  ]]> 
+  </info>
+  <exec>
+<![CDATA[
+steaminstall
+					
+			]]>
+  </exec>
+  <uninstall>
+<![CDATA[
+steamremove
+					
+			]]>
+  </uninstall>
+ </option>
+ <option id="script123" type="Games" users="yakkety">
+	<title>Minecraft</title>
+	<description>Minecraft Launcher</description>
+	<depends>oraclejava</depends>
+	<info>
+	<![CDATA[
+	<h2>Minecraft Launcher</h2>
+	<p>
+
+<b>Minecraft</b> is a game about placing blocks and going on adventures. Explore randomly generated worlds and build amazing things from the simplest of homes to the grandest of castles. Play in Creative Mode with unlimited resources or mine deep in Survival Mode, crafting weapons and armor to fend off dangerous mobs. Do all this alone or with friends.
+</p>
+<p>This will install the Minecraft launcher, and the JRE and JDK if you do not already have them. You will need a Mojang account to play this.
+</p>
+]]>
+</info>
+<exec>
+<![CDATA[
+minecraftinstall
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+minecraftremove
+]]>
+</uninstall>
+ </option><!--
+ <option id="script124" type="Miscellaneous" users="yakkety">
+ <title>Hopeless Script</title>
+ <description>This script is doomed to fail.</description>
+ <exec>
+ <![CDATA[
+ hopelessscript
+ ]]></exec>
+ </option>
+ <option id="script125" type="Miscellaneous" users="yakkety">
+ <title>Perfect Script</title>
+ <description>If this script has an error, there's something wrong with you.</description>
+ <exec>
+ <![CDATA[
+ perfectscript
+ ]]>
+ </exec>
+ </option>--><!--
+ <option id="script124" type="Web Browsers" users="yakkety">
+ <title>Google Chrome</title>
+ <description>Chrome browser</description>
+ <info></info>
+ </option>
+ <option id="script125" type="File Sharing" users="yakkety">
+ <title>Dropbox</title>
+ </option>
+ <option id="script126" type="Games" users="yakkety">
+ <title>Docking Station</title>
+ <info>eula</info>
+ </option>
+ <option id="script127" type="Utilities" users="yakkety">
+ <title>NVIDIA GPU drivers</title></option> -->
+ 
+ <option id="linuxmainline" type="Beta" users="yakkety">
+ <title>Linux Mainline</title>
+ <description>The latest version of Linux</description>
+ <info>
+ <![CDATA[
+ <div style="color: red;">Only install this option if you know EXACTLY what you are doing.
+ This is pre-release software and it might contain bugs that trash your files or make your
+ system unbootable.</div>
+ <b>Linux Mainline</b> is the Release Candidate version of Linux, the kernel
+ used in all Linux distributions. This version can make your system faster and it often supports
+ more hardware, but it can also lead to a completely unbootable system or create other severe
+ bugs. ]]></info>
+ <exec>
+ linuxmainlineinstall
+ </exec>
+ <uninstall>
+ linuxmainlineuninstall
+ </uninstall>
+ </option>
+ <option id="mesagit" type="Beta" users="yakkety">
+ <title>Mesa Git</title>
+ <description>The latest libre graphics drivers</description>
+ <info>
+ <![CDATA[
+ <b>Mesa Git</b> is the bleeding-edge version of the Mesa graphics library,
+ which provides the most commonly used drivers for Intel and AMD graphics cards.
+ Using the Git version will often provide extremely improved performance (up to 10x)
+ from the stable version included in Ubuntu, but may also introduce bugs ranging from 
+ incorrectly displayed objects to certain games not starting at all (although this is rare).
+ After installing this, Mesa will be upgraded next time you update Ubuntu.
+ Uninstalling this option will revert to Ubuntu's version immediately. ]]>
+ </info>
+ <exec>
+ <![CDATA[
+ mesagitinstall
+ ]]>
+ </exec>
+ <uninstall>
+ <![CDATA[
+ mesagitremove
+ ]]>
+ </uninstall>
+ </option>
+ <!--
+ <option id="script130" type="File Sharing" users="yakkety">
+ <title>Vuze</title></option>
+ -->
+<option id="getdebrepo" type="Miscellaneous" users="yakkety">
+<title>GetDeb Repositories</title>
+<description>Supplementary software for Ubuntu</description>
+<info>
+<![CDATA[
+This option adds the two GetDeb repositories (Apps &amp; Games).
+These repositories add extra software which can't be found in Ubuntu itself.
+Several games in Hypermatix64 are installed using GetDeb.
+]]>
+</info>
+<exec>
+<![CDATA[
+getdebadd
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+getdebremove
+]]>
+</uninstall>
+</option> 
+<option id="asciipOrtal" type="Games" users="yakkety">
+<title>ASCIIpOrtal</title>
+<description>2D Portal clone with ASCII-style graphics</description>
+<info>
+<![CDATA[
+<p><i>See</i> high res text graphics. <i>Master</i> physics bending puzzles. <i>Escape</i> the test chambers. <i>Play</i> <b>ASCIIpOrtal</b>!</p>
+
+<p>ASCIIpOrtal is a unique puzzle game. You can create custom maps so even when the game is over the fun doesn’t need to end. Use a text editor (or the mostly functional map editor by Mads Lund) and share the maps you create on the ASCIIpOrtal forum.</p>
+
+<p>ASCIIpOrtal is by Joe Larson with sounds designed by Steve Fenton. Original concept inspired by Increpare’s Portile game, Super Serif Bros, and Valve’s Portal.</p>
+]]>
+</info>
+<exec>
+<![CDATA[
+asciiportalinstall
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+asciiportaluninstall
+]]>
+</uninstall>
+</option>
+<option id="creatures" type="Installers" users="yakkety">
+<title>Creatures</title>
+<description>Artificial life simulator</description>
+<info>
+<![CDATA[
+<p>The original <b>Creatures</b> game, released in the United Kingdom and Australia in November 1996 and released in North America in July 1997, took place on the fictional disc-shaped world Albia. While the "faces" of the disc were uninhabitable, the "rim" of Albia was home to a complicated environment much like Earth's. Here lay an abandoned system of laboratories left over by the Shee, an advanced race that had suddenly left the planet many years earlier in order to find a more stable world. In these laboratories and environments, the player was able to hatch new Norns from leftover eggs and re-inhabit the world of Albia. An expansion pack, called "Life Kit #1" was released for purchase later.</p>
+<p>Hypermatix64 will install Creatures from the original CD, install the latest updates for the game, and add a desktop file to add the game to your application menu. The engine used is openc2e, which is incomplete, so Norns do not move in this version of the game.</p>
+]]>
+</info>
+<exec>
+<![CDATA[
+creatures1install
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+creatures1uninstall
+]]>
+</uninstall>
+</option>
+<option id="creatures2" type="Installers" users="yakkety">
+<title>Creatures 2</title>
+<description>Artificial life simulator</description>
+<info>
+<![CDATA[
+<p><b>Creatures 2</b> is the second game in the Creatures artificial life game series made by Creature Labs, and the sequel to 1996 game Creatures. It features three species: the cute, dependent Norns, the cantankerous Grendels and the industrious Ettins. The game tries to simulate life, and includes a complex two-dimensional ecology of plants, animals and insects, which provide the environment for the three main species to live and develop in. The player interacts with the world using a hand-shaped cursor, and tries to encourage the creatures' development by manipulating various objects around the world, guiding the creatures using the cursor and encouraging the creatures to speak.</p>
+<p>Many new gameplay features included in Creatures 2 not present in the original game include a new physics model and a global weather system, along with brand new applets and a world twice the size of the Creatures 1 world.</p>
+<p>The executable file for the game was in fact an interpreter for its scripting language, thus allowing users to make total conversions or derivative works from the game.</p>
+<p>Hypermatix64 will install Creatures 2 from the original CD, install the latest updates for the game, and add a desktop file to add the game to your application menu. The engine used is openc2e, which is incomplete, so Norns do not move in this version of the game.</p>
+]]>
+</info>
+<exec>
+<![CDATA[
+creatures2install
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+creatures2uninstall
+]]>
+</uninstall>
+</option>
+<option id="creatures3" type="Installers" users="yakkety">
+<title>Creatures 3</title>
+<description>Artificial life simulator</description>
+<depends>dockingstation</depends>
+<info>
+<![CDATA[
+<p><b>Creatures 3</b> is the third game in the Creatures a-life game series made by Creature Labs. In this installment, the Shee have left Albia in a spaceship, the Shee Ark, to search for a more spherical world. The Ark was abandoned by the Shee because a meteor hit the ship, but the infrastructure still remains in working order.</p>
+<p>There are 6 main "metarooms" on the ship; the Norn Terranium, Grendel Jungle, Ettin Desert, Marine area, Bridge, and Engineering Room. The Norn Terranium is where you can safely hatch and raise your norns. The Grendel Jungle is where the Grendel mother (egg-layer) is, and it is well suited for Grendels. The Ettin Desert is where the Ettin mother is; it is a dry, harsh environment for all creatures. The Bridge is where you will find the most gadgets, and also the most Ettins. The Engineering Room is where the Agent Creator is, with which you can create objects for your world.</p>
+<p>Grendels are now vicious, unlike the original Creatures Grendels; these Grendels enjoy hunting down, and then killing norns. The Ettins, which first appeared in Creatures 2, love gathering gadgets and taking them back to the Ettin Desert.</p>
+<p>Creatures 3 runs on the CAOS engine, making it highly moddable, but now it is retired and outdated.</p>
+<p>Hypermatix64 will install Creatures 3 from the original CD, install the latest updates for the game, and add a desktop file to add the game to your application menu.</p>
+]]>
+</info>
+<exec>
+<![CDATA[
+creatures3install
+]]>
+</exec>
+<uninstall>
+<![CDATA[
+creatures3uninstall
+]]>
+</uninstall>
+</option>
+<!-- freedoom, supertux -->
+<!-- critterding, xv (eula), simplescreenrecorder, peek, kdenlive -->
+<!-- audacity, vlc -->
+<!-- hiri, wps, onlyoffice -->
+<!-- teamviewer, virtualbox, vmware, virt-manager -->
+<!-- alacritty, obs, recordmydesktop, vokoscreen -->
+</page>

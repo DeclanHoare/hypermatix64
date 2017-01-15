@@ -1,0 +1,106 @@
+#!/bin/bash
+# Copyright 2006-2008 (?) Automatix Team
+# Copyright 2008-2010 (?) TheeMahn
+# Copyright 2016, 2017 Declan Hoare
+# This file is part of Hypermatix64.
+#
+# Hypermatix64 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Hypermatix64 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
+#
+# hypermatix64 - temporary launcher script
+# NOTE: I have decided to rework this in Python at some point,
+# so this script will not be present at all in the final version.
+# Do not bother modifying it.
+
+HX64LOCATION=/usr/share/hypermatix64
+
+# Detecting the language.
+# The result is only used for this script - it is redetected in Python.
+mylang=${LANG:0:5} # dialect, disregarding iso-8859-1 or utf-8
+localedir=$HX64LOCATION/locale/$mylang
+if [ ! -d $localedir ]
+then
+	mylang=${LANG:0:2} # language without country
+	localedir=$HX64LOCATION/locale/$mylang
+	if [ ! -d $localedir ]
+	then
+		mylang=en # fall back on Intl English
+		localedir=$HX64LOCATION/locale/$mylang
+	fi
+fi
+
+. $localedir/launcherstrings.sh
+
+echo "$HX64WELCOME"
+# I am well aware of {x..y} but it doesn't work with
+# variables.
+for i in $(seq ${#HX64WELCOME})
+do
+	echo -n "="
+done
+echo ""
+echo "http://home.exetel.com.au/declanhoare/hypermatix64"
+
+# Time to parse some arguments
+# Cheers to Robert Siemer on StackOverflow
+# http://stackoverflow.com/questions/192249
+HX64OPTIONS=$*
+SHORT=dveh
+LONG=debug,version,dumplog,help
+PARSED=`getopt --options $SHORT --longoptions $LONG --name "$0" -- "$@"`
+if [[ $? -ne 0 ]]; then
+    exit 2
+fi
+
+eval set -- "$PARSED"
+
+basecommand="$HX64LOCATION/hypermatix64.py $USER $HOME $UID"
+usesudo="yes"
+
+while true; do
+	case "$1" in
+		-d|--debug)
+			echo "$HX64DEBUG"
+			invocation="python -d "
+			shift
+			;;
+		-v|--version|-e|--dumplog|-h|--help)
+			mycommand="$invocation$basecommand $HX64OPTIONS" # don't need root to do any of these
+			usesudo="no"
+			shift
+			;;
+		--)
+			shift
+			break
+			;;
+		*)
+			echo "$HX64OPTIONERRORBEFORE$1$HX64OPTIONERRORAFTER"
+			exit 3
+			;;
+	esac
+done
+
+# This $KDE_FULL_SESSION business seems a bit unnecessary, so
+# I'll leave a FIXME here to see if I can find a cleaner way of deciding
+# which graphical sudo to use at some point.
+if [ "$usesudo" = "yes" ]
+then
+	if echo $KDE_FULL_SESSION | grep true
+	then
+		mycommand="kdesudo -c \"$invocation$basecommand --kde_desktop $HX64OPTIONS\" -d -n"
+	else
+		mycommand="gksudo --message \"$HX64ENTERPASSWD\" \"$invocation$basecommand $HX64OPTIONS\""
+	fi
+fi
+
+eval $mycommand

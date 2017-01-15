@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Swiftweasel Browser 
+Exec=/opt/automatix/swiftweasel/swiftweasel
+Terminal=false
+Type=Application
+StartupNotify=false
+Icon=/opt/automatix/swiftweasel/icons/mozicon50.xpm
+Categories=Application;Network;
+Name[en_US]=Swiftweasel Browser 

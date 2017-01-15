@@ -1,0 +1,57 @@
+#!/bin/bash
+# Auto - Repository generator Via TheeMahn
+#
+# Copyright (c) 2007  Ubuntusoftware Team <http://ubuntusoftware.info>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+SCRIPT_VERSION=1.00
+##Check for zenity
+
+if [ ! -e "/usr/bin/zenity" ]; then
+	gksudo apt-get install -y zenity
+fi
+
+update() {
+ wget -O /tmp/autorepo http://ubuntusoftware.info/scripts/autorepo >/dev/null 2>&1
+ REMOTE_VERSION=`grep SCRIPT_VERSION /tmp/autorepo |head -n1 |sed 's/.*=//'`
+ if [ "$REMOTE_VERSION" != "$SCRIPT_VERSION" ]; then
+  if [[ -n $DIALOG ]]
+  then
+   dialog --yesno "Newer version of Auto Repo has been found\n\nDo you wish to install it?" 0 0
+   DIALOG_EXIT_CODE=$?
+   if [[ $DIALOG_EXIT_CODE = 0 ]]
+   then
+    cp /tmp/autorepo ~/.gnome2/nautilus-scripts/
+    echo "Auto_Repo script has been updated to v $REMOTE_VERSION"
+    echo "Please re-run the script"
+    zenity --info --text='Newer version of script detected '$REMOTE_VERSION'.  It has been upgraded please re-run script.' --title="Auto Repo";
+    exit
+   fi
+  else
+   cp /tmp/autorepo ~/.gnome2/nautilus-scripts/
+   echo "Newer version detected: $REMOTE_VERSION"
+   zenity --info --text='Newer version of script detected '$REMOTE_VERSION'.  It has been upgraded please re-run script.' --title="Auto Repo";
+   exit
+  fi
+ fi
+ rm /tmp/autorepo 2>/dev/null
+}
+update
+PROGRESS=0
+cd $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+NUMBER_OF_FILES=`find -iname "*.deb" -maxdepth 1 | wc -l`
+zenity --info --title "Repo Manager" --text "There is "$NUMBER_OF_FILES" packages to index in "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS"."
+sudo dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz | zenity --width=600 --height=100 --progress --pulsate --auto-close --title="Scaning Packages..."
+sudo dpkg-scansources . /dev/null | gzip -9c > Sources.gz | zenity --width=600 --height=100 --progress --auto-close --title="Scaning Sources..."

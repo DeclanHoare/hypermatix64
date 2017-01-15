@@ -1,0 +1,3376 @@
+#!/usr/bin/env bash
+# This is a temporary script for reference
+# It will be removed when the python backend is working
+# Do not modify it
+# Do not call it from the frontend
+function cleanup {
+echo "Cleaning up..."
+apt-get --assume-yes autoremove
+}
+
+HX64APTERROR="An APT-related error occured and installation was unsuccessful"
+HX64DPKGERROR="A dpkg-related error occured and uninstallation was unsuccessful (chances are something else requires what you're trying to uninstall)"
+
+function dpkg_check {
+	# FIXME - check the package management lock and make it if nobody else has it,
+	# like you're supposed to, rather than using this hardcoded grep bullshit
+if	ps -U root -u root u | grep "synaptic" | grep -v grep;
+then 	
+	AX_fatal "Hypermatix64 WILL NOT run alongside Synaptic.  Please run just one of them at a time. ";
+
+exit 1;
+elif 	ps -U root -u root u | grep "update-manager" | grep -v grep;
+then 	
+	AX_fatal "Hypermatix64 WILL NOT run alongside Ubuntu update-manager.  Please run just one of them at a time. ";
+
+exit 1;
+elif 	ps -U root -u root u | grep "apt-get" | grep -v defunct | grep -v grep;
+then 	
+	AX_fatal "Hypermatix64 WILL NOT run alongside an independent instance of apt-get.  Please run just one of them at a time.";
+
+elif 	ps -U root -u root u | grep "adept" | grep -v defunct | grep -v grep;
+then 	
+	AX_fatal "Hypermatix64 WILL NOT run alongside Adept.  Please run just one of them at a time.";
+
+exit 1;
+elif 	ps -U root -u root u | grep "dpkg" | grep -v grep;
+then
+	AX_fatal "Hypermatix64 WILL NOT run alongside an independent instance of dpkg.  Please run just one of them at a time.";
+
+exit 1;
+fi
+#Test O/S 64 or 32 bit...
+architecture=`uname -m`
+targetarch="x86" #Set 64-bit machines to download 32-bit if no options are set
+if [ "$architecture" != "x86_64" ] && [ "$architecture" != "ia64" ]; then
+    architecture="x86"
+else
+    architecture="x86_64"
+fi
+if [ "$architecture" = "x86_64" ]; then
+echo "64-bit OS detected."
+else
+echo "32-bit OS detected."
+fi 
+}
+
+function dir_ch {
+cd $AXHOME
+}
+
+function restrictedextrasandcodecs {
+dpkg_check
+echo "debconf msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+if ! DEBIAN_FRONTEND=noninteractive apt-get --assume-yes --no-remove install hypermatix64-meta-restricted # --no-remove ends the script if there are conflicts rather than removing the user's own packages
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function restrictedextrasandcodecsremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-restricted # dpkg doesn't resolve dependency issues, it tells you about them and ends rather than removing the user's own packages
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function aa07install {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install alien-arena
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function aa07remove {
+dpkg_check
+if ! dpkg --purge alien-arena
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function amarok2install {
+	# !!!DONT'T BOTHER FIXING THIS ONE!!!
+AX_fatal "The Neon build system was discontinued in 2009. You should upgrade to a stable version of Amarok.";
+dpkg_check
+if test -f /etc/apt/sources.list.d/amarok-nightly.sources.list
+then
+echo "Amarok Repository already in list."
+if !	sudo apt-get install --assume-yes  amarok-nightly amarok-nightly-tools amarok-nightly-tools
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Amarok Nightly Repository key:"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 778978B00F7992B0
+echo "Adding Amarok repository"
+sudo echo "deb http://ppa.launchpad.net/project-neon/ubuntu gutsy main #Amarok Nightly" > /etc/apt/sources.list.d/amarok-nightly.sources.list && sudo apt-get update
+if !	sudo apt-get install --assume-yes  amarok-nightly amarok-nightly-tools amarok-nightly-tools
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function ama2uninstall {
+if !	sudo apt-get remove --purge --assume-yes  amarok-nightly amarok-nightly-tools amarok-nightly-tools
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Removing Amaork Repository and updating sources"
+sudo rm /etc/apt/sources.list.d/amarok-nightly.sources.list
+sudo apt-get update
+cleanup
+}
+
+function legendsinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install legends
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function legendsremove {
+dpkg_check
+echo "Removing Legends, please wait..."
+if ! dpkg --purge legends
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+}
+
+function aainstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install 25assist
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function aaremove {
+dpkg_check
+if ! dpkg --purge 25assist
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function rtcwinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install enemy-territory
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function rtcwremove {
+dpkg_check
+if ! dpkg --purge enemy-territory
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+}
+
+function atanksinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install atanks
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function atanksremove {
+dpkg_check
+if ! dpkg --purge atanks
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function ilinux {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install hypermatix64-meta-ilinux
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function ilinuxremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-ilinux
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function acrobatreader {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install adobereader-enu
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function acrobatremove {
+dpkg_check
+if ! dpkg --purge adobereader-enu
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function swiftweasel {
+#COMPLETE
+AX_fatal "Swiftweasel does not work out-of-the-box on recent versions of Ubuntu. If possible, a fix will be provided in a later version of Hypermatix64.";
+if	cat /opt/automatix/swiftweasel/swiftweaselversion | grep "2.0.0.8"
+then
+	if	AX_question "Hypermatix64 seems to think that Swiftweasel is already installed! If YOU ARE SURE you want to reinstall Swiftweasel then hit YES or else hit NO. If you hit NO, Hypermatix64 will resume with the rest of the chosen options.";
+   	then
+		swiftweaselinstall
+   	else
+                AX_fatal "You chose not to re-install Swiftweasel";      
+        fi
+else
+	swiftweaselinstall
+fi
+}
+
+function swiftweaselinstall {
+	
+dpkg_check
+rm -f $AXHOME/swiftweasel*.tar.gz
+sudo mkdir /opt
+sudo mkdir /opt/automatix
+dir_ch
+if 	cat /proc/cpuinfo | egrep AMD | egrep K6 && cat /proc/cpuinfo | egrep "cpu family" | egrep "5" && cat /proc/cpuinfo | egrep "model" | egrep "\b(8|13)\b"
+then
+		# K6
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_k6.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_k6.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_k6.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+      	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep AMD && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(2|3|4|6|7|8|10)\b"
+then
+		# Athlon XP
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_athlon-xp.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_athlon-xp.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_athlon-xp.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+      	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep AMD && cat /proc/cpuinfo | egrep "cpu family" | egrep "15"
+then
+		# K8
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_k8-32bit.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_k8-32bit.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_k8-32bit.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+      	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(7|8|9|10|11)\b"
+then
+		# Pentium III
+       	dir_ch
+	if 	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_pentium-3.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-3.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-3.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+       	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "15" && cat /proc/cpuinfo | egrep "model" | egrep "\b(0|1|2|3|4|6)\b"
+then
+		# Pentium IV
+       	dir_ch
+	if 	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_pentium-4.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-4.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-4.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+       	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(9|13)"
+then
+		# Pentium M
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+       	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+elif	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(14|15)"
+then
+		# Pentium M... again?
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftweasel
+               	sudo tar zxvf $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftweasel.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftweasel-p-2.0.0.8_10-21-07_pentium-m.tar.gz
+    		sudo rm -f /opt/automatix/swiftweasel/swiftweaselversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftweaselversion /opt/automatix/swiftweasel/swiftweaselversion
+       	else
+               	AX_fatal "Swiftweasel could not be downloaded. Please try again later";
+      	fi
+else
+       AX_fatal "Swiftweasel is not available for your CPU architecture.";
+fi
+}
+
+
+function swiftdove {
+#COMPLETE
+AX_fatal "Swiftdove does not work out-of-the-box on recent versions of Ubuntu. If possible, a fix will be provided in a later version of Hypermatix64.";
+if	cat /opt/automatix/swiftdove/swiftdoveversion | grep "2.0.0.7"
+then
+	if	AX_question "Hypermatix64 seems to think that Swiftdove is already installed! If YOU ARE SURE you want to reinstall Swiftdove then hit YES or else hit NO. If you hit NO, Hypermatix64 will resume with the rest of the chosen options.";
+   	then
+		swiftdoveinstall
+   	else
+                AX_fatal "You chose not to re-install Swiftdove";      
+        fi
+else
+	swiftdoveinstall
+fi
+}
+
+function swiftdoveinstall {
+dpkg_check
+rm -f $AXHOME/swiftdove*.tar.gz
+sudo mkdir /opt
+sudo mkdir /opt/automatix
+dir_ch
+if 	cat /proc/cpuinfo | egrep AMD && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(2|3|4|6|7|8|10)\b"
+then
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftdove
+               	sudo tar zxvf $AXHOME/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftdove.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz
+    		sudo rm -f /opt/automatix/swiftdove/swiftdoveversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftdoveversion /opt/automatix/swiftdove/swiftdoveversion
+      	else
+               	AX_fatal "Swiftdove could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep AMD && cat /proc/cpuinfo | egrep "cpu family" | egrep "15"
+then
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftdove
+               	sudo tar zxvf $AXHOME/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftdove.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftdove-2.0.0.7-2_09-29-07_athlon-xp.tar.gz
+    		sudo rm -f /opt/automatix/swiftdove/swiftdoveversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftdoveversion /opt/automatix/swiftdove/swiftdoveversion
+      	else
+               	AX_fatal "Swiftdove could not be downloaded. Please try again later";
+      	fi
+elif 	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "15" && cat /proc/cpuinfo | egrep "model" | egrep "\b(0|1|2|3|4|6)\b"
+then
+       	dir_ch
+	if 	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftdove-2.0.0.7-2_09-29-07_pentium-4.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftdove
+               	sudo tar zxvf $AXHOME/swiftdove-2.0.0.7-2_09-29-07_pentium-4.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftdove.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftdove-2.0.0.7-2_09-29-07_pentium-4.tar.gz
+    		sudo rm -f /opt/automatix/swiftdove/swiftdoveversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftdoveversion /opt/automatix/swiftdove/swiftdoveversion
+       	else
+               	AX_fatal "Swiftdove could not be downloaded. Please try again later";
+      	fi
+elif	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(9|13)"
+then
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftdove
+               	sudo tar zxvf $AXHOME/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftdove.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz
+    		sudo rm -f /opt/automatix/swiftdove/swiftdoveversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftdoveversion /opt/automatix/swiftdove/swiftdoveversion
+       	else
+               	AX_fatal "Swiftdove could not be downloaded. Please try again later";
+      	fi
+elif	cat /proc/cpuinfo | egrep Intel && cat /proc/cpuinfo | egrep "cpu family" | egrep "6" && cat /proc/cpuinfo | egrep "model" | egrep "\b(14|15)"
+then
+       	dir_ch
+	if	wget --tries=2 --timeout=30 http://internap.dl.sourceforge.net/sourceforge/swiftweasel/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz
+       	then
+               	sudo rm -rf /opt/automatix/swiftdove
+               	sudo tar zxvf $AXHOME/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz -C /opt/automatix
+               	sudo cp -f /usr/share/ultamatix/conf/swiftdove.desktop /usr/share/applications/
+               	rm -f $AXHOME/swiftdove-2.0.0.7-2_09-29-07_prescott.tar.gz
+    		sudo rm -f /opt/automatix/swiftdove/swiftdoveversion
+		sudo cp -f /usr/share/ultamatix/conf/swiftdoveversion /opt/automatix/swiftdove/swiftdoveversion
+       	else
+               	AX_fatal "Swiftdove could not be downloaded. Please try again later";
+      	fi
+else
+       AX_fatal "Swiftdove is not available for your CPU architecture.";
+fi
+}
+
+function extrafonts {
+dpkg_check
+echo "debconf msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
+if ! DEBIAN_FRONTEND=noninteractive apt-get --assume-yes --no-remove install hypermatix64-meta-fonts
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function extrafontsremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-fonts
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function compressinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install hypermatix64-meta-compress
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function compressremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-compress
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function skypeinstall {
+rm /etc/apt/sources.list.d/skype-stable.list /etc/apt/sources.list.d/skype-stable.list.save
+}
+
+function skyremove {
+dpkg_check
+if [ "$architecture" = "x86_64" ]
+then
+	if ! dpkg --purge skypeforlinux
+	then
+		AX_fatal "$HX64DPKGERROR";
+	fi 
+	
+	apt-get update
+else
+	if ! dpkg --purge skype
+	then
+		AX_fatal "$HX64DPKGERROR";
+	fi 
+fi
+cleanup
+}
+
+function googleearthinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install google-earth-stable
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gearthremove {
+dpkg_check
+echo "Removing Google Earth"
+if ! dpkg --purge google-earth-stable
+then
+	AX_fatal "$HX64DPKGERROR";
+fi 
+cleanup
+}
+
+function ripping {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install dvdrip
+then
+	AX_fatal "$HX64APTERROR";
+fi 
+}
+
+function rippingremove {
+dpkg_check
+if ! dpkg --purge dvdrip
+then
+	AX_fatal "$HX64APTERROR";
+fi 
+cleanup
+}
+
+function firefoxicedteaplugin {
+# IN WORK  ~~~~~~~~~~~~~~~~~~ please update
+dpkg_check
+if [ "$architecture" = "x86_64" ]; then
+#scrap icedtea if existant
+sudo apt-get remove --purge  --assume-yes icedtea6-plugin
+#much work had to be done here for AMD64, squashing tons of bugs ubuntu has with java in general
+#need to add file check routine & chown routine
+cd /opt/
+sudo wget http://downloadue.info/java/jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+sudo chmod +x jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+sudo ./jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+cd /usr/lib/mozilla/plugins/
+# This is a nasty hack, but they leave me no alternative...
+sudo ln -s /opt/jre1.6.0_12/lib/amd64/libnpjp2.so 
+#clean up
+sudo rm jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+
+
+
+
+
+#	if ! 	DEBIAN_FRONTEND=kde sudo apt-get --assume-yes  install icedtea-java7-jre icedtea-java7-bin icedtea-java7-plugin
+#	then
+#		AX_fatal "An apt-based error occured and installation was unsuccessful";
+#	fi
+#else
+#	if ! 	DEBIAN_FRONTEND=gnome sudo apt-get --assume-yes  install icedtea-java7-jre icedtea-java7-bin icedtea-java7-plugin
+#	then
+#		AX_fatal "An apt-based error occured and installation was unsuccessful";
+#	fi
+#fi
+sudo update-alternatives --set java /usr/lib/jvm/java-6-sun/jre/bin/java
+else
+if 	echo $KDE_FULL_SESSION | grep "true"
+then
+	if ! 	DEBIAN_FRONTEND=kde sudo apt-get --assume-yes  install sun-java6-jre sun-java6-bin
+	then
+		AX_fatal "An apt-based error occured and installation was unsuccessful";
+	fi
+else
+	if ! 	DEBIAN_FRONTEND=gnome sudo apt-get --assume-yes  install sun-java6-jre sun-java6-bin
+	then
+		AX_fatal "An apt-based error occured and installation was unsuccessful";
+	fi
+fi
+sudo update-alternatives --set java /usr/lib/jvm/java-6-sun/jre/bin/java
+fi
+}
+
+function totemxine {
+# COMPLETE
+dpkg_check
+if ! 	sudo apt-get --assume-yes  install totem-xine
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function totemxineremove {
+dpkg_check
+if ! 	sudo apt-get --assume-yes  remove --purge totem-xine
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function googlepicasa {
+dpkg_check
+if ! sudo apt-get --assume-yes --no-remove install picasa
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function googlepremove {
+dpkg_check
+echo "Removing Google Picasa"
+if ! dpkg --purge picasa
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function wineinstall {
+# COMPLETE
+dpkg_check
+if ! apt-add-repository -yu ppa:wine/wine-builds
+then
+	AX_fatal "$HX64APTERROR";
+fi
+if ! apt-get --assume-yes --no-remove install winehq-staging
+then
+	AX_fatal "$HX64APTERROR";
+fi
+#wine doors on Ultamatix repository
+#if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+#then
+#echo "Ultamatix Repository exists"
+#if ! 	sudo apt-get install --assume-yes  wine-doors
+#then
+#	AX_fatal "$HX64APTERROR";
+#fi
+#else
+#echo "Adding Ultamatix Repository."
+#sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list
+#sudo apt-get update
+#if ! 	sudo apt-get --assume-yes  install wine-doors
+#then
+#	AX_fatal "$HX64APTERROR";
+#fi
+#fi
+}
+
+function wineremove {
+dpkg_check
+if ! dpkg --purge winehq-staging
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Removing Wine Repository"
+if ! apt-add-repository --remove -yu ppa:wine/wine-builds
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function w32dvdcodecsremove {
+dpkg_check
+if [ "$architecture" = "x86_64" ]; then
+if ! 	sudo apt-get remove --purge --assume-yes  w64codecs
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+if ! 	sudo apt-get remove --purge --assume-yes  w32codecs
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+cleanup
+}
+
+function w32dvdcodecsinstall {
+# This is illegal in Australia because of political stupidity.
+# I am an Australian. It's not worth it for me to fix this script.
+# Optical media is unpopular nowadays anyway.
+echo "STUB"
+}
+
+function nautilusscripts {
+dpkg_check
+echo "Adding Masna Repository"
+if ! add-apt-repository -yu ppa:diesch/testing
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Installing Masna & Nautilus Scripts"
+if ! apt-get --assume-yes --no-remove install hypermatix64-nautilus-scripts
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function nscriptsremove {
+dpkg_check
+echo "Removing Nautilus Scripts (& Masna if possible)"
+if ! dpkg --purge hypermatix64-nautilus-scripts
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+echo "Removing Masna Repository"
+if ! add-apt-repository -yu ppa:diesch/testing
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function sunjavaJREJDK {
+dpkg_check
+if ! apt-add-repository -yu ppa:webupd8team/java
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "debconf shared/accepted-oracle-license-v1-1 select true" | debconf-set-selections
+if ! DEBIAN_FRONTEND=noninteractive apt-get --assume-yes --no-remove install oracle-java9-installer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function sunjavaJREJDKremove {
+dpkg_check
+if ! dpkg --purge oracle-java9-installer
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+echo "Removing Java Repository"
+if ! apt-add-repository --remove -yu ppa:webupd8team/java
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+
+function frostwireinstall {
+dpkg_check
+echo "Installing Frostwire..."
+if ! apt-get --assume-yes --no-remove install frostwire
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function frostremove {
+dpkg_check
+echo "Removing Frostwire..."
+if ! dpkg --purge frostwire
+then
+    	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function clipart {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install openclipart
+then
+    	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function clipartremove {
+dpkg_check
+if ! dpkg --purge openclipart
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function gmailchecker {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install checkgmail
+then
+     	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gmailcheckerremove {
+dpkg_check
+if ! dpkg --purge checkgmail
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function xdvdshrinkinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install dvdshrink
+then
+     	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function xdvdshrinkremove {
+dpkg_check
+if ! dpkg --purge dvdshrink
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function songbird {
+dpkg_check
+if ! sudo add-apt-repository -yu ppa:nightingaleteam/nightingale-nightly  # I know, I know... unstable packages... but there's no stable nightingale for yakkety or even xenial
+then
+	AX_fatal "$HX64APTERROR";
+fi
+if ! apt-get --assume-yes --no-remove install nightingale
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function sbremove {
+dpkg_check
+echo "Removing Nightingale"
+if ! dpkg --purge nightingale
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+echo "Removing Nightingale Repository"
+if ! apt-add-repository --remove -yu ppa:nightingaleteam/nightingale-nightly
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function cxstandard {
+# COMPLETE
+if 	AX_question "CrossOver Office Standard 6.1.0 makes it possible to use Windows applications such as Microsoft Office, Quicken, and Lotus Notes on Linux. However, this software will only remain fully functional for thirty days, after which, you need to purchase a license from Codeweavers (the manufacturers of this software) for USD 39.95 to continue using it. Do you want to proceed?";
+then
+	dpkg_check
+    	
+    	if ! 	sudo apt-get --assume-yes  install crossover-technalign
+    	then
+            	AX_fatal "$HX64APTERROR"
+    	fi
+else
+    	AX_fatal "You chose not to install CrossOver Office Standard 6.1.0"
+fi
+}
+
+function cxpro {
+# COMPLETE
+if 	AX_question "CrossOver Office Professional 6.1.0 makes it possible to use Windows applications such as Microsoft Office, Quicken, and Lotus Notes on Linux. However, this software will only remain fully functional for thirty days, after which, you need to purchase a license from Codeweavers (the manufacturers of this software) for USD 69.95 to continue using it. Do you want to proceed?";
+then
+	dpkg_check
+    	
+    	if ! 	sudo apt-get --assume-yes  install crossoverpro-technalign
+    	then
+    	        AX_fatal "$HX64APTERROR"
+    	fi
+else
+    	AX_fatal "You chose not to install CrossOver Office Professional 6.1.0"
+fi
+}
+
+
+function devessentials {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install hypermatix64-meta-developer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function devessentialsremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-developer
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+
+function vmwareserver {
+# COMPLETE
+dpkg_check
+if	dpkg -s vmware-player | grep "Status: install ok installed"
+then
+	if	AX_question "VMware Server cannot be installed if VMware Player is currently installed. If you want to remove VMware Player and install VMware Server then hit YES or else hit NO. If you hit NO, Hypermatix64 will resume with the rest of the chosen options.";
+   	then     		
+		
+		dpkg_check
+		if ! 	sudo apt-get --assume-yes  --purge remove vmware-player vmware-player-kernel-modules
+		then
+			AX_info "An apt-based error occurred and uninstallation was unsuccessful";
+		fi
+		sleep 3
+		dpkg_check
+		if 	echo $KDE_FULL_SESSION | grep "true";
+		then
+			if ! 	DEBIAN_FRONTEND=kde sudo apt-get --assume-yes  install vmware-server vmware-server-kernel-modules
+			then
+				AX_fatal "$HX64APTERROR";
+			fi
+		else
+			if ! 	DEBIAN_FRONTEND=gnome sudo apt-get --assume-yes  install vmware-server vmware-server-kernel-modules
+			then
+				AX_fatal "$HX64APTERROR ";
+			fi
+		fi
+		
+	else
+				AX_fatal "You chose to keep VMware Player and not install VMware Server ";	
+
+   	fi
+else
+	dpkg_check
+	if 	echo $KDE_FULL_SESSION | grep "true";
+	then
+		if ! 	DEBIAN_FRONTEND=kde sudo apt-get --assume-yes  install vmware-server vmware-server-kernel-modules
+		then
+			AX_fatal "$HX64APTERROR";
+		fi
+	else
+		if ! 	DEBIAN_FRONTEND=gnome sudo apt-get --assume-yes  install vmware-server vmware-server-kernel-modules
+		then
+			AX_fatal "$HX64APTERROR ";
+		fi
+	fi
+fi
+}
+
+
+function virtualbox {
+# COMPLETE
+dpkg_check
+if 	echo $KDE_FULL_SESSION | grep "true"
+then       
+	if ! 	DEBIAN_FRONTEND=kde sudo apt-get --assume-yes install virtualbox
+	then
+		AX_fatal "An apt-based error occured and installation was unsuccessful";
+	fi
+else
+	if ! 	DEBIAN_FRONTEND=gnome sudo apt-get --assume-yes  install virtualbox
+	then
+		AX_fatal "An apt-based error occured and installation was unsuccessful";
+	fi
+fi
+}
+
+
+function ooxmltranslator {
+# COMPLETE
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  odf-converter-integrator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get --assume-yes  install odf-converter-integrator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function ooxmltranslatorremove {
+dpkg_check
+if ! 	sudo apt-get --assume-yes  --purge remove odf-converter-integrator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function assaultcubeinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install assaultcube
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function assaultcuberemove {
+dpkg_check
+if ! dpkg --purge assaultcube
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function sourinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install sauerbraten
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function sourremove {
+dpkg_check
+if ! dpkg --purge sauerbraten
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function nexuizinstall {
+dpkg_check
+if ! sudo apt-get --assume-yes --no-remove install nexuiz
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function nexuizremove {
+dpkg_check
+if ! dpkg --purge nexuiz
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function glestinstall {
+dpkg_check
+if ! apt-get --no-remove --assume-yes install glest
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function glestremove {
+dpkg_check
+if ! dpkg --purge glest
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function tremulousinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install tremulous
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function tremulousremove {
+dpkg_check
+if ! dpkg --purge tremulous
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function wesnothinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install wesnoth
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function wesnothremove {
+dpkg_check
+if ! dpkg --purge wesnoth
+then
+	AX_fatal "$HX64PDKGERROR";
+fi
+cleanup
+}
+
+function gftpinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove gftp
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gftpremove {
+dpkg_check
+if ! dpkg --purge gftp
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function warsowinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove warsow
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function warsowremove {
+dpkg_check
+if ! dpkg --purge warsow
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function boswarsinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install boswars
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function boswarsremove {
+dpkg_check
+if ! dpkg --purge boswars
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function vdriftinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install vdrift
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function vdriftremove {
+dpkg_check
+if ! dpkg --purge vdrift
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function bzflaginstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install bzflag
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bzflagremove {
+dpkg_check
+if ! dpkg --purge bzflag
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function screenletsinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install screenlets-pack-all
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function screenletsremove {
+dpkg_check
+if ! dpkg --purge screenlets-pack-all
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function gdeskletsinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install gdesklets
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gdeskletsremove {
+dpkg_check
+if ! dpkg --purge gdesklets
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function utweakinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove ubuntu-tweak
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function utweakremove {
+dpkg_check
+if ! dpkg --purge ubuntu-tweak
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function glob2install {
+dpkg_check
+if ! apt-get --assume-yes --no-remove glob2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function glob2remove {
+dpkg_check
+if ! dpkg --purge glob2
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function freecolinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install freecol
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function freecolremove {
+dpkg_check
+if ! dpkg --purge freecol
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function flightgearinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install flightgear
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function flightgearremove {
+dpkg_check
+if ! dpkg --purge flightgear
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function frozeninstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove frozen-bubble
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function frozenremove {
+dpkg_check
+if ! dpkg --purge frozen-bubble
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function wopinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install worldofpadman
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+
+function wopremove {
+dpkg_check
+if ! dpkg --purge worldofpadman
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function wormuxinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install warmux
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function wormuxremove {
+dpkg_check
+if ! dpkg --purge warmux
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function fooinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install foobillardplus
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function fooremove {
+dpkg_check
+if ! dpkg --purge foobillardplus
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function scorched3dinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove scorched3d
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function scorched3dremove {
+dpkg_check
+if ! dpkg --purge scorched3d
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+
+
+function tileinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install tileracer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function tileremove {
+dpkg_check
+if ! dpkg --purge tileracer
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function urbaninstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install urbanterror
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function urbanremove {
+dpkg_check
+if ! dpkg --purge urbanterror
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function vegainstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install vegastrike
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function vegaremove {
+dpkg_check
+if ! dpkg --purge vegastrike
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function neverballinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install neverball
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function neverballremove {
+dpkg_check
+if ! dpkg --purge neverball
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function sniperinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install orbital-eunuchs-sniper
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function sniperremove {
+dpkg_check
+if ! dpkg --purge orbital-eunuchs-sniper
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function chessinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install hypermatix64-meta-chess
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function chessremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-chess
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function pingusinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install pingus
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function pingusremove {
+dpkg_check
+if ! dpkg --purge pingus
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function ufoaiinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install ufoai
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function ufoairemove {
+dpkg_check
+if ! dpkg --purge ufoai
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function warzoneinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install warzone2100
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function warzoneremove {
+dpkg_check
+if ! dpkg --purge warzone2100
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function darkinstall {
+dpkg_check
+if [ "$architecture" = "x86_64" ]; then
+echo "Sorry currently no support for x64 architecture."
+AX_fatal "$HX64APTERROR - No support for x64 architecture.";
+fi
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  dark-oberon
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  dark-oberon
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function darkremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  dark-oberon
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function firefoxmplayerplugin {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install gecko-mediaplayer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function firefoxmplayerpluginremove {
+dpkg_check
+if ! dpkg --purge gecko-mediaplayer
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function ntfsinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  ntfs-config
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function ntfsremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ntfs-config
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function k9copyinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install k9copy
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function k9copyremove {
+dpkg_check
+if ! dpkg --purge k9copy
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function amsninstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  amsn
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function amsnremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  amsn
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function pidgininstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install hypermatix64-meta-pidgin
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function pidginremove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-pidgin
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function themesinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gnome-art comixcursors crystalcursors gcursor gdm-themes metacity-themes peace-look tropic-look gdm-themes gnome-themes-extras industrialtango-theme peace-look metacity-themes gnome-icon-theme-* outdoors-theme gtk-theme-switch gtk-theme-switch gtk-clearlooks-* gtk-engines-* gtk2-engines-* ttf-bitstream-vera ttf-freefont ttf-arphic-bkai00mp gsfonts-x11 ttf-devanagari-fonts ttf-farsiweb ttf-sjfonts ttf-punjabi-fonts ttf-indic-fonts ttf-kochi-gothic-naga10 ttf-thai-tlwg ttf-kochi-mincho ttf-bangla-fonts ttf-bengali-fonts ttf-mgopen ttf-nafees ttf-kannada-fonts ttf-xfree86-nonfree-syriac ttf-unfonts ttf-bpg-georgian-fonts ttf-uralic t1-xfree86-nonfree ttf-f500 ttf-isabella ttf-larabie-deco ttf-larabie-straight ttf-larabie-uncommon ttf-staypuft ttf-summersby ttf-ubuntu-title xfonts-intl-european ttf-dustin startupmanager
+then
+	AX_fatal "$HX64APTERROR installing standard apps / themes";
+fi
+}
+
+function themesremove {
+dpkg_check
+echo "No removal script is provided in case you have installed other environments."
+cleanup
+}
+
+function kvircinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install kvirc
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function kvircremove {
+dpkg_check
+if ! dpkg --purge kvirc
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function chromiuminstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  chromium-bsu
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function chromiumremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  chromium-bsu
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function dragoninstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  dragonplayer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function dragonremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  dragonplayer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function kubuntuinstall {
+dpkg_check
+if ! 	apt-get install --assume-yes  kubuntu-desktop
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function kubunturemove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  kubuntu-desktop 
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function xubuntuinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install xubuntu-desktop
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function xubunturemove {
+dpkg_check
+if ! dpkg --purge xubuntu-desktop
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function eubuntuinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  edubuntu-desktop
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function eubunturemove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  edubuntu-desktop
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function amarokinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  amarok14
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function amarokremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  amarok14
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function transmissioninstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  transmission-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function transmissionremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  transmission-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function vlcinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  vlc
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function vlcremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  vlc
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function clamavinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install clamav
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function clamavremove {
+dpkg_check
+if ! dpkg --purge clamav
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function firestarterinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  firestarter
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function firestarterremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  firestarter
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function snortinstall {
+dpkg_check
+# The terrible code below was meant to find an active network interface
+# so that Snort could default to it, but the Snort package in Ubuntu
+# has a bug making it reset the value to eth0 during unattended
+# installation no matter what... leading to a failed installation if eth0
+# doesn't actually exist. Somebody else reported this on Launchpad,
+# hopefully it'll be fixed.
+# HX64SNORTINTERFACE=$(ip -o link show | awk '{print $2,$9}' | grep UP | awk '{print $1}' | head -n1) # get first live network address
+# HX64SNORTINTERFACE=${HX64SNORTINTERFACE::-1} # strip colon from end
+if ! DEBIAN_FRONTEND=gnome apt-get --assume-yes --no-remove install snort
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function snortremove {
+dpkg_check
+if ! dpkg --purge snort
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function gridwarsinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  gridwars
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  gridwars
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function gridwarsremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  gridwars
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function acetoneinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  acetoneiso
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function acetoneremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  acetoneiso2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function actioncubeinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  assaultcube
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  assaultcube
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function actioncuberemove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  actioncube
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gourmetinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gourmet
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gourmetremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  gourmet
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function avantinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  avant-window-navigator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function avantremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  avant-window-navigator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function livesinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  lives
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  lives
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function livesremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  lives
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function startupinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  startupmanager
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function startupremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  startupmanager
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function buminstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  bum
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bumremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  bum
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function bootchartinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  bootchart
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bootchartremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  bootchart
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function bluefishinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  bluefish tidy
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bluefishremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  bluefish
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function screeminstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  screem tidy
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function screemremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  screem
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function anjutainstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  anjuta
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function anjutaremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  anjuta
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gladeinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  glade-3 glade-gnome-3
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gladeremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  glade-3 glade-gnome-3
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function quantainstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  quanta kompare kimagemapeditor cervisia
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function quantaremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  quanta
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function libdvdcss2install {
+dpkg_check
+if test -f /etc/apt/sources.list.d/medibuntu.list
+then
+echo "Mediabuntu Repository already in list."
+if ! 	sudo apt-get install --assume-yes  libdvdcss2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Mediabuntu repository"
+sudo wget http://www.medibuntu.org/sources.list.d/gutsy.list --output-document=/etc/apt/sources.list.d/medibuntu.list
+wget -q http://packages.medibuntu.org/medibuntu-key.gpg -O- | sudo apt-key add -
+sudo apt-get update && sudo apt-get install --assume-yes  medibuntu-keyring && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  libdvdcss2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function libdvdcss2remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  libdvdcss2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function mandvdinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  mandvd
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  mandvd
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function mandvdremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  mandvd
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function sysinfoinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  sysinfo
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function sysinforemove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  sysinfo
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function hardinfoinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  hardinfo hwinfo
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function hardinforemove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  hardinfo hwinfo
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function bansheeinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  banshee
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bansheeremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  banshee
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ueinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-themes
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-themes
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+
+function ueremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-themes
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function yakuakeinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  yakuake
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function yakuakeremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge yakuake
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function qemuinstall {
+dpkg_check
+if !    sudo apt-get install --assume-yes  qemu qemuctl qemu-launcher qemulator qemubuilder kqemu-common
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function qemuremove {
+dpkg_check
+if !    sudo apt-get remove --purge --assume-yes  qemu qemuctl qemu-launcher qemulator qemubuilder kqemu-common
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function blenderinstall {
+dpkg_check
+if !    sudo apt-get install --assume-yes  blender yafray inkscape
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function blenderremove {
+dpkg_check
+if !    sudo apt-get remove --purge --assume-yes  blender yafray inkscape
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function tvcaptureinstall {
+dpkg_check
+if !    sudo apt-get install --assume-yes  tvtime xtv mythtv xawtv zapping
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function tvcaptureremove {
+dpkg_check
+if !    sudo apt-get remove --purge --assume-yes  tvtime xtv mythtv xawtv zapping
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function wifiinstall {
+dpkg_check
+if !    sudo apt-get install --assume-yes  wifi-radar madwifi-tools ndiswrapper-common ndisgtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function wifiremove {
+dpkg_check
+if !    sudo apt-get remove --purge --assume-yes  wifi-radar madwifi-tools ndiswrapper-common ndisgtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function abiwordinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  abiword
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function abiwordremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge abiword
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gphpeditinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gphpedit
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gphpeditremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge gphpedit
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function jeditinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  jedit
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function jeditremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge jedit
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function devedeinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  devede
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function devederemove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge devede
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function lemonripinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  lemonrip
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  lemonrip
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function lemonripremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge lemonrip
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function braseroinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  brasero
+then
+	AXif_fatal "$HX64APTERROR";
+fi
+}
+
+function braseroremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge brasero
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gnucashinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gnucash
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function gnucashremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge gnucash
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function kmymoneyinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  kmymoney2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function kmymoneyremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge kmymoney2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function isomasterinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  isomaster
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function isomasterremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge isomaster
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ktorrentinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  ktorrent
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function ktorrentremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge ktorrent
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function terminatorinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  terminator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function terminatorremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  terminator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function fusioniconinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/compiz.sources.list
+then
+echo "Compiz Repository already in list."
+if ! 	sudo apt-get install --assume-yes  compiz compizconfig-settings-manager compiz-fusion-plugins-main compiz-fusion-plugins-extra fusion-icon emerald
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Compiz Fusion Repository key:"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 2ED6BB6042C24D89
+echo "Adding Compiz Repository."
+sudo echo "deb http://ppa.launchpad.net/compiz/ubuntu gutsy main#Compiz Repo" > /etc/apt/sources.list.d/compiz.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  compiz compizconfig-settings-manager compiz-fusion-plugins-main compiz-fusion-plugins-extra fusion-icon emerald
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function fusioniconremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  compiz compizconfig-settings-manager compiz-fusion-plugins-main compiz-fusion-plugins-extra fusion-icon emerald
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Removing Compiz Repo."
+sudo rm /etc/apt/sources.list.d/compiz.sources.list
+}
+
+function amarokinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/fastforward.sources.list
+then
+echo "AmarokPPA Repository already in list."
+if ! 	sudo apt-get install --assume-yes  amarok14
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Amarok Fast Forward Repository key:"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com  B9F1C432AE74AE63
+echo "Adding Amarok Fast Forward Repository."
+sudo echo "deb http://ppa.launchpad.net/bogdanb/ppa/ubuntu gutsy main#Amarok Fast Forward Repo" > /etc/apt/sources.list.d/fastforward.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  amarok14
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function amarokremove {
+dpkg_check
+sudo rm /etc/apt/sources.list.d/fastforward.sources.list
+if ! 	sudo apt-get remove --purge --assume-yes  amarok14
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ue2install {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-pack-2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-pack-2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function ue2remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-theme-pack-2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+
+
+function office3install {
+dpkg_check
+if ! apt-get --assume-yes --no-remove hypermatix64-meta-openoffice
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function office3remove {
+dpkg_check
+if ! dpkg --purge hypermatix64-meta-openoffice
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function envynginstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  envyng-core envyng-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function envyngremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  envyng-core envyng-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function javapluginstall {
+# IN WORK
+dpkg_check
+if [ "$architecture" = "x86_64" ]; then
+#scrap icedtea if existant
+sudo apt-get remove --purge  --assume-yes icedtea6-plugin
+#much work had to be done here for AMD64, squashing tons of bugs ubuntu has with java in general
+#need to add file check routine & chown routine
+cd /opt/
+sudo wget http://downloadue.info/repo/java/jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+sudo chmod +x jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+sudo ./jre-6u12-ea-bin-b03-linux-amd64-22_dec_2008.bin
+cd /usr/lib/mozilla/plugins/
+# This is a nasty hack, but they leave me no alternative...
+sudo ln -s /opt/jre1.6.0_12/lib/amd64/libnpjp2.so 
+else
+if ! 	sudo apt-get install --assume-yes  sun-java6-plugin
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+fi
+}
+
+function javaplugremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  sun-java6-plugin
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function xbmcinstall {
+# COMPLETE - file check routine needs added
+dpkg_check
+echo "Adding XBMC repository based on gutsy & GPG key"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 9F10E6AE9317790E
+echo 'deb http://ppa.launchpad.net/team-xbmc/gutsy-ppa/ubuntu gutsy main #XBMC Repository' > /etc/apt/sources.list.d/xbmc.sources.list && sudo apt-get update
+sudo apt-get install -y  xbmc
+}
+
+function xbmcremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  xbmc
+then
+	AX_fatal "$HX64APTERROR";
+fi
+#remove repo from sources
+echo "Removing XBMC repository..."
+sudo rm /etc/apt/sources.list.d/xbmc.sources.list
+sudo apt-get update
+cleanup
+}
+
+function azureusinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  azureus
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function azureusremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  azureus
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function audaciousinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  audacious
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function audaciousremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  audacious
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function volleyballinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  slimevolley
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  slimevolley
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function volleyballremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge volleyball
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function torcsinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  torcs
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function torcsremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  torcs
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function scourgeinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  scourge
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  scourge
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function scourgeremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge scourge
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gl117install {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gl-117
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gl117remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  gl-117
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ooliteinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  oolite
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ooliteremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  oolite
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gtkatlanticinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  gtkatlantic
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function gtkatlanticremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  gtkatlantic
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function netpanzerinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  netpanzer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function netpanzerremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  netpanzer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function blobinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  blobandconquer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  blobandconquer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function blobremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge blobandconquer
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function nethackinstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  nethack-qt
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function nethackremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  nethack-qt
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function googlegadgetsinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/google_gadgets.sources.list
+then
+echo "Google Gadgets Repository already in list."
+if ! 	sudo apt-get install --assume-yes  google-gadgets-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding PPA GPG Key for Google Gadgets"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0x0c744d71a380e244
+echo "Adding Google Gadgets Repository."
+sudo echo "deb http://ppa.launchpad.net/tgm4883/ppa/ubuntu gutsy main #Google Gadgets" > /etc/apt/sources.list.d/google_gadgets.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  google-gadgets-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function googlegadgetsremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  google-gadgets-gtk
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Removing Google Gadgets Repo."
+sudo rm /etc/apt/sources.list.d/google_gadgets.sources.list
+}
+
+function k3bremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  k3b
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function k3binstall {
+dpkg_check
+if ! 	sudo apt-get install --assume-yes  k3b
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ue21install {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  gtk2-engines-ubuntulooks
+then
+	AX_fatal "$HX64APTERROR";
+fi
+
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.1
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  gtk2-engines-ubuntulooks
+then
+	AX_fatal "$HX64APTERROR";
+fi
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.1
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+
+function ue21remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-theme-2.1
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function bloodfrontinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.listsudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0x0c744d71a380e244
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  bloodfrontier
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  bloodfrontier
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function bloodfrontremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  bloodfrontier
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function ue22install {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+
+function ue22remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-theme-2.2
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function ue23install {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.3
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-theme-2.3
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+
+function ue23remove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-theme-2.3
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function xmasinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-xmas-theme
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  ultimate-edition-xmas-theme
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+
+function xmasremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  ultimate-edition-xmas-theme
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function lansharkinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  lanshark
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  lanshark
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function lansharkremove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge lanshark
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function awnppainstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/awnmanager.sources.list
+then
+echo "AWN Repository already in list."
+if ! 	sudo apt-get install --assume-yes  avant-window-navigator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding AWN Repository Key"
+sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 09266047CE9FDCA9
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://ppa.launchpad.net/awn-core/ppa/ubuntu gutsy main#AWN Manager" > /etc/apt/sources.list.d/awnmanager.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  avant-window-navigator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function awnpparemove {
+dpkg_check
+if ! 	sudo apt-get remove --assume-yes  --purge avant-window-navigator
+then
+	AX_fatal "$HX64APTERROR";
+fi
+echo "Removing AWN PPA"
+sudo rm /etc/apt/sources.list.d/awnmanager.sources.list
+cleanup
+}
+
+function yofrankieinstall {
+dpkg_check
+if test -f /etc/apt/sources.list.d/ultamatix.sources.list
+then
+echo "Hypermatix64 Repository already in list."
+if ! 	sudo apt-get install --assume-yes  yofrankie
+then
+	AX_fatal "$HX64APTERROR";
+fi
+else
+echo "Adding Hypermatix64 Repository."
+sudo echo "deb http://downloadue.info/repo/ gutsy all#Ultamatix Repository" > /etc/apt/sources.list.d/ultamatix.sources.list && sudo apt-get update
+if ! 	sudo apt-get install --assume-yes  yofrankie
+then
+	AX_fatal "$HX64APTERROR";
+fi
+fi
+}
+
+function yofrankieremove {
+dpkg_check
+if ! 	sudo apt-get remove --purge --assume-yes  yofrankie
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function steaminstall {
+dpkg_check
+echo "debconf steam/question select I AGREE" | debconf-set-selections
+if ! DEBIAN_FRONTEND=noninteractive apt-get --assume-yes --no-remove install steam
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function steamremove {
+dpkg_check
+if ! DEBIAN_FRONTEND=noninteractive dpkg --purge steam
+then
+	AX_fatal "$HX64APTERROR";
+fi
+cleanup
+}
+
+function minecraftinstall {
+	echo "STUB"
+}
+
+function minecraftremove {
+	echo "STUB"
+}
+
+function hopelessscript {
+	echo "THIS SCRIPT WAS DOOMED FROM THE START"
+	AX_fatal "This script is designed to fail...";
+}
+
+function perfectscript {
+	echo "This script is never NOT going to work, unless your system is insanely broken"
+}
+
+function amobaxinstall {
+# Not sure why, but this was missing from the scripts of Ultamatix despite having an entry.
+# I decided to re-add it for Hypermatix64.
+dpkg_check
+if ! apt-get --assume-yes --no-remove amoebax
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+function amobaxremove {
+dpkg_check
+if ! dpkg --purge amoebax
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function getdebadd {
+dpkg_check
+echo "Adding GetDeb Repositories"
+wget -q -O - http://archive.getdeb.net/getdeb-archive.key | apt-key add -
+apt-add-repository -y 'deb http://archive.getdeb.net/ubuntu yakkety-getdeb games'
+apt-add-repository -yu 'deb http://archive.getdeb.net/ubuntu yakkety-getdeb apps'
+}
+
+function getdebremove {
+dpkg_check
+echo "Removing GetDeb Repositories"
+apt-add-repository --remove -y 'deb http://archive.getdeb.net/ubuntu yakkety-getdeb games'
+apt-add-repository --remove -yu 'deb http://archive.getdeb.net/ubuntu yakkety-getdeb apps'
+apt-key remove A8A515F046D7E7CF
+}
+
+function asciiportalinstall {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install asciiportal
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function asciiportaluninstall {
+dpkg_check
+if ! dpkg --purge asciiportal
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}
+
+function mesagitinstall {
+dpkg_check
+if ! apt-add-repository -yu ppa:paulo-miguel-dias/mesa
+then
+	AX_fatal "$HX64APTERROR";
+fi
+}
+
+function mesagitremove {
+dpkg_check
+if ! apt-get --assume-yes --no-remove install ppa-purge # depend on this in HX64
+then
+	AX_fatal "$HX64APTERROR";
+fi
+if ! ppa-purge paulo-miguel-dias/mesa
+then
+	AX_fatal "$HX64DPKGERROR";
+fi
+cleanup
+}

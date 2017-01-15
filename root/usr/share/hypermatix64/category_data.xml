@@ -1,0 +1,208 @@
+<axCatagorys>
+ <catagory>
+  <name>Games</name>
+  <icon>/usr/share/hypermatix64/pixmaps/ET.xpm</icon>
+  <summary>Keep yourself entertained with a wide variety of video games</summary>
+  <info>
+<![CDATA[
+  <p>Keep yourself entertained with a wide variety of video games - puzzle games, racing games, action games.
+  You'll also find Steam here to communicate with friends and buy games. </p> ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Office</name>
+  <icon>/usr/share/hypermatix64/pixmaps/office.png</icon>
+  <summary>Programs to help you in the office</summary>
+  <info>
+  <![CDATA[
+  <p>Read and write documents, manage your recipes and photos, and look up maps using this assortment of office
+  software.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Miscellaneous</name>
+  <icon>/usr/share/hypermatix64/pixmaps/misc.png</icon>
+  <summary>Odds and ends</summary>
+  <info>
+  <![CDATA[
+  <p>Anything that didn't fit anywhere else.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Financial</name>
+  <icon>/usr/share/hypermatix64/pixmaps/financial.png</icon>
+  <summary>Keep on top of your finances</summary>
+  <info>
+  <![CDATA[
+  <p>Keep on top of your finances in your home or small business with these accounting programs.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Utilities</name>
+  <icon>/usr/share/hypermatix64/pixmaps/utilities.jpg</icon>
+  <summary>System tools</summary>
+  <info>
+  <![CDATA[
+  <p>In this section, you'll find drivers and system utilities. Take advantage of specialised hardware or open various file formats.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Security</name>
+  <icon>/usr/share/hypermatix64/pixmaps/security.png</icon>
+  <summary>Protect your computer</summary>
+  <info>
+  <![CDATA[
+  <p>Keep your system safe from malware and cyber attacks with this selection of security software.</p>
+  ]]>
+  </info>
+ </catagory>
+
+ <catagory>
+  <name>Programming Tools</name>
+  <icon>/usr/share/hypermatix64/pixmaps/prog.png</icon>
+  <summary>Write your own software</summary>
+  <info>
+  <![CDATA[
+  <p>Want to develop your own software? These are tools no developer should be without. An assortment of IDEs, text editors, and compilers can be found in this section.</p>
+  ]]>
+  </info>
+ </catagory>
+
+ <catagory>
+  <name>Web Browsers</name>
+  <icon>/usr/share/hypermatix64/pixmaps/firefox.png</icon>
+  <summary>Surf the World Wide Web</summary>
+  <info>
+  <![CDATA[
+  <p>Surf the World Wide Web with a variety of Web browsers.</p>
+  ]]>
+  </info>
+ </catagory>
+  <catagory>
+  <name>Chat Clients</name>
+  <icon>/usr/share/hypermatix64/pixmaps/chat.png</icon>
+  <summary>Keep in touch with your friends</summary>
+  <info>
+  <![CDATA[
+  <p>Keep in touch with your friends using these instant messaging applications.</p>
+  ]]>
+  </info>
+ </catagory>
+
+  <catagory>
+  <name>E-mail Clients</name>
+  <icon>/usr/share/hypermatix64/pixmaps/mail.png</icon>
+  <summary>Check your e-mail</summary>
+  <info>
+  <![CDATA[
+  <p>Check up on your e-mail. Communicate with friends and co-workers.</p>
+  ]]>
+  </info>
+ </catagory> 
+ 
+ <catagory>
+  <name>File Sharing</name>
+  <icon>/usr/share/hypermatix64/pixmaps/frostwire.png</icon>
+  <summary>Send files across the Internet</summary>
+  <info>
+  <![CDATA[
+  <p>Need to get a file to someone? Use one of these programs. They use the highly efficient BitTorrent protocol to ensure the fastest possible download speeds.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Media Players and Editors</name>
+  <icon>/usr/share/hypermatix64/pixmaps/amarok.png</icon>
+  <summary>Listen to music, watch and create videos</summary>
+  <info>
+  <![CDATA[
+  <p>Listen to music or watch your video collection with an assortment of media players. You will also find several audio and video editors here to create your own podcasts, music, or home videos.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Burning and Ripping</name>
+  <icon>/usr/share/hypermatix64/pixmaps/k3b.png</icon>
+  <summary>Create and copy discs</summary>
+  <info>
+  <![CDATA[
+  <p>Need to put files on a disc? Need to take files off of a disc? These are the tools for you. They'll help you deal with all sorts of optical media.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Environments</name>
+  <icon>/usr/share/hypermatix64/pixmaps/os.png</icon>
+  <summary>Entire new environments for your system</summary>
+  <info>
+  <![CDATA[
+  <p>If you don't like the Unity interface, why not try another one? These options will install entirely new interfaces onto your computer. You'll usually find them as an option on the login screen next time you boot your computer.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Virtualisation</name>
+  <icon>/usr/share/hypermatix64/pixmaps/wine.png</icon>
+  <summary>Run the trickiest software</summary>
+  <info>
+  <![CDATA[
+  <p>Whether you've got a Windows program you need to get working, or you need an entirely new system to test something on, the tools here will help you out.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Eyecandy</name>
+  <icon>/usr/share/hypermatix64/pixmaps/eyecandy.png</icon>
+  <summary>Make your computer prettier</summary>
+  <info>
+  <![CDATA[
+  <p>Spice up your desktop. The eyecandy here will keep your computer looking a lot slicker than even the best Windows or Mac OS 10 machines. Some of this might even serve a practical purpose at the same time.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Tweaks</name>
+  <icon>/usr/share/hypermatix64/pixmaps/tweak.png</icon>
+  <summary>Tinker with Ubuntu</summary>
+  <info>
+  <![CDATA[
+  <p>These tools will help you change various internal settings of Ubuntu to your liking.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Desktop Publishing</name>
+  <icon>/usr/share/hypermatix64/pixmaps/desktop.png</icon>
+  <summary>Redundant category</summary>
+  <info>
+  <![CDATA[
+  <p>This category should be REMOVED before Hypermatix64 is released. It's the same thing as the Office category. It's just confusing.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+  <name>Beta</name>
+  <icon>/usr/share/hypermatix64/pixmaps/beta.png</icon>
+  <summary>Pre-release software</summary>
+  <info>
+  <![CDATA[
+  <p>Stay on the cutting edge of Linux with these pre-release versions of popular software.
+  These often have new features and run faster, but they also tend to have more bugs.</p>
+  ]]>
+  </info>
+ </catagory>
+ <catagory>
+	<name>Installers</name>
+	<icon>/usr/share/hypermatix64/pixmaps/installers.png</icon>
+	<summary>Scripts which need manual intervention</summary>
+	<info>
+	<![CDATA[
+	<p>This section contains any options which need manual intervention from the user to complete. For the most part, this means commercial Windows software sold on CDs which Hypermatix64 can install Linux versions of.</p>
+	]]>
+	</info>
+ </catagory>
+</axCatagorys>

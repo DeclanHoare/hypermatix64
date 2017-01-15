@@ -1,0 +1,20 @@
+<axConfig>
+	<locations>
+		<share>/usr/share/hypermatix64</share>
+		<sources>/usr/share/hypermatix64/conf</sources>
+		<data>/usr/share/hypermatix64</data>
+		<image>/usr/share/hypermatix64/pixmaps</image>
+		<modules>/usr/lib/hypermatix64</modules>
+		<clientData>/usr/share/hypermatix64/</clientData>
+	</locations>
+	<images>
+		<splash>splash.png</splash>
+		<logoLarge>hypermatix64.png</logoLarge>
+		<windowIcon>hypermatix64.png</windowIcon>	
+		<aboutSplash>about_splash.png</aboutSplash>
+		
+		<infoIcon>dialog-information.png</infoIcon>
+		<warningIcon>dialog-error.png</warningIcon>
+		<fatalIcon>dialog-warning.png</fatalIcon>
+	</images>
+</axConfig>

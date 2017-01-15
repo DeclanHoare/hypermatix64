@@ -1,0 +1,51 @@
+<axData>
+	<distro>
+		<name>Ubuntu</name>
+		<version>16.10</version>
+	</distro>
+ <version>
+  <name>Hypermatix64</name>
+  <number>1.9.0</number>
+  <repos>
+<![CDATA[
+<p style='color:red'>Please note that <b>Hypermatix64</b> may add repositories to your system. Without the use of these repositories, many applications will be unavailable to you. The repositories will be automatically removed if you uninstall all the programs which need them.</p>
+<br>
+<p>It is highly unlikely that these repositories will affect your computer in any negative way, and any exceptions will be listed in the descriptions for the options in question.</p>
+			
+			]]>
+  </repos>
+  <about>
+<![CDATA[
+<b>Hypermatix64</b> is developed and maintained by <b>RogueAI</b> (Declan Hoare).
+It is based on <b>Ultamatix</b> by <b>TheeMahn</b>, which is in turn based on <b>Automatix2</b> by the <b>Automatix Team</b>.
+
+The Web page of Hypermatix64 can be found at <a href="http://home.exetel.com.au/declanhoare/hypermatix64">http://home.exetel.com.au/declanhoare/hypermatix64</a>. The GitHub repository is located at <a href="https://www.github.com/RogueAI42/hypermatix64">https://www.github.com/RogueAI42/hypermatix64</a>. If you have suggestions or requests, please send them to <a href="mailto:declanhoare@exemail.com.au">declanhoare@exemail.com.au</a>.
+
+Thanks to everyone else who has indirectly contributed to Hypermatix64 or its predecessors.
+			]]>
+  </about>
+  <legal>
+<![CDATA[
+<p style='color:red'>&nbsp;</p>
+		]]>
+  </legal>
+  <licence>
+<![CDATA[
+
+<h1 style='color:red'>Hypermatix64</h1>
+<h2>1.9.0</h2>
+<p><b>Hypermatix64</b> is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+<p><b>Hypermatix64</b> is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License along with <b>Hypermatix64</b>.  If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+]]>
+  </licence>
+  <credits>
+<![CDATA[  <h1 style='color:red'>Hypermatix64</h1>
+<h2>1.9.0</h2>
+<p><b>Hypermatix64</b> is developed and maintained by <b>RogueAI</b> (Declan Hoare).</p>
+<p><b>Ultamatix</b> was developed and maintained by <b>TheeMahn</b>.</p>
+<p><b>Automatix2</b> was developed and maintained by the <b>Automatix Team</b>.</p>
+]]>
+  </credits>
+ </version>
+</axData>

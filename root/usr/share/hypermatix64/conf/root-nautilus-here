@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Opens a nautilus window as root.
+
+gksudo nautilus --no-desktop $NAUTILUS_SCRIPT_CURRENT_URI
