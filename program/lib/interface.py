@@ -17,12 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
 #
-# hypermatix64.py - entry point
+# interface.py - starts interface
 
 import sys, argparse
 from resin_config import *
 import hyperlocale
-sys.path += [axConf.locations['modules']]
+
 localisationFile = hyperlocale.getAndParseLocalisationFile()
 ultamatix_version_num = "1.9.0"
 resin_version_num = "3.2.5"

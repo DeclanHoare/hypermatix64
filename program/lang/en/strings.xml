@@ -1,0 +1,11 @@
+<?xml version="1.1"?>
+<locale lang="en">
+	<productName>Hypermatix64</productName>
+	<productDescription>a graphical interface for automating the installation of the most commonly requested applications for Linux</productDescription>
+	<welcome>Welcome to Hypermatix64</welcome>
+	<debugMode>Entering Debug Mode</debugMode>
+	<enterPassword>Please enter your password to use Hypermatix64.</enterPassword>
+	<debugHelp>display all warnings, no matter how small</debugHelp>
+	<versionHelp>show version information and exit</versionHelp>
+	<dumplogHelp>show the log file and exit</dumplogHelp>
+</locale>

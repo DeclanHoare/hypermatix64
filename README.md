@@ -23,5 +23,4 @@ option and are not needed by anything else).
 
 It is literally unusable in its current state (it will not launch)
 and I have decided to commit it to GitHub already for development
-purposes. You will need to install everything in the directory
-"root" in this repo to / if you want to test or modify it.
+purposes.

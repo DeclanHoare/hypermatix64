@@ -1,4 +1,6 @@
-# Copyright 2016, 2017 Declan Hoare
+# Copyright 2006-2008 (?) Automatix Team
+# Copyright 2008-2010 (?) TheeMahn
+# Copyright 2017 Declan Hoare
 # This file is part of Hypermatix64.
 #
 # Hypermatix64 is free software: you can redistribute it and/or modify
@@ -14,9 +16,22 @@
 # You should have received a copy of the GNU General Public License
 # along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
 #
-# launcherstrings.sh - Localisable text from the launcher script
-HX64WELCOME="Welcome to Hypermatix64"
-HX64DEBUG="Entering Debug Mode"
-HX64ENTERPASSWD="Please enter your password to use Hypermatix64."
-HX64OPTIONERRORBEFORE="Invalid option "
-HX64OPTIONERRORAFTER="."
+# hx64_config.py - class "conf"
+
+import sys, os, gtk.glade
+import __main__
+
+class conf:
+	def __init__(self):
+		self.uVersion = ""
+		self.gladeUI = gtk.glade.XML(os.path.join(__main__.LOCATION, "resin_glade.glade"))
+		self.catalog = []
+		self.script_list = []
+		self.selected_scripts = []
+		self.need_generate = 0
+		self.failed = []
+		self.script_errors = []
+		self.changed_sources = 0
+		self.dep_installed = []
+		self.dep_uninstalled = []
+		self.deselector = []

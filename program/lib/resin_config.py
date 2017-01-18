@@ -1,42 +1,50 @@
-import sys,os,time,user,platform
-import gtk, gtk.glade
-from gtk import gdk
-import gobject
-import pango 
-import xml_functions as xml
-#class for saving important data accross the application
-class conf:
-	home = "/usr/share/hypermatix64"
-	config_path = "/usr/share/hypermatix64/conf_data.xml"
-	uVersion = ""
-	gladeUI = gtk.glade.XML('/usr/share/hypermatix64/resin_glade.glade')
-	catalog = []
-	script_list = []
-	selected_scripts = []
-	need_generate = 0
-	failed = []
-	script_errors = []
-	changed_sources=0
-	dep_installed =[]
-	dep_uninstalled = []
-	deselector=[]
-#class for gathering and recording user specific configurations...
+# Copyright 2006-2008 (?) Automatix Team
+# Copyright 2008-2010 (?) TheeMahn
+# Copyright 2017 Declan Hoare
+# This file is part of Hypermatix64.
+#
+# Hypermatix64 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Hypermatix64 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
+#
+# resin_config.py - classes "AX_user", "AX_conf", and "HX_locale"
+
+# !!FIXME FIXME FIXME!!
+# This file contains a LOT of APT-specific code.
+# This should all be cut out of this file and moved to an APT module
+# so that we can more easily work with distros which do not use APT.
+
+import sys, os, time, user, platform
+import gtk, gtk.glade, gobject, pango
+import locale, xml.etree.ElementTree
+import hx64_config, xml_functions
+
+# User/system related configuration.
 class AX_user:
 	def __init__(self):
 		self.username = sys.argv[1]
 		self.home = sys.argv[2]
 		self.uid = int(sys.argv[3])
-		self.conf_folder = self.home+"/.hypermatix64"
-		self.source_change_file =self.conf_folder+"/sc"
+		self.conf_folder = "/etc/hypermatix64"
+		self.source_change_file = self.conf_folder+"/sc"
 		self.create_conf_folder()
 		self.create_usage_log()
 		self.create_installed_log()
 		self.create_log()
-		self.ax_in = self.conf_folder+"/ax_in"
-		self.ax_out = self.conf_folder+"/ax_out"
+		self.ax_in = self.conf_folder + "/ax_in"
+		self.ax_out = self.conf_folder + "/ax_out"
 		self.delete_pipes()
 	def create_log(self):
-		self.log_file = self.conf_folder+"/activity.log"
+		self.log_file = self.conf_folder + "/activity.log"
 		try:
 			os.stat(self.log_file)
 		except:
@@ -71,12 +79,11 @@ class AX_user:
 		else:
 			return 0
 	def backup_sources(self):
-		file = self.conf_folder+"/sources_backup.list"
+		file = self.conf_folder + "/sources_backup.list"
 		call = "cp /etc/apt/sources.list %s"%file
 		os.system(call)
 		os.chown(file,self.uid,-1)
 	def restore_sources(self):
-		# Will be fixed - TheeMahn, repo routine has changed for the better
 		source = "/etc/apt/sources.list"
 		tmp = open(source,'r').read()
 		if "#ULTAMATIX REPOS START" not in tmp:
@@ -167,7 +174,11 @@ class AX_user:
 	def get_activity(self):
 		return open("%s/activity.log"%self.conf_folder,'r').read()
 	def get_changelog(self):
+		# FIXME! The changelog is going to end up somewhere more sane,
+		# and we should get its path using conf_data.xml anyway.
 		return open("/usr/share/hypermatix64/changelog",'r').read()
+
+# Distro and path configuration.
 class AX_conf:
 	def __init__(self):
 		import xml_functions as resin
@@ -203,6 +214,9 @@ class AX_conf:
 				client += con+"\n"
 		pre = "AXUSER=%s\nAXHOME=%s\nAXPIPEIN=%s\nAXPIPEOUT=%s\n"%(axUser.username,axUser.home,axUser.ax_in,axUser.ax_out)
 		self.masterInit = pre+master+client
+
+
+
 axUser = AX_user()
 axConf = AX_conf()	
 
