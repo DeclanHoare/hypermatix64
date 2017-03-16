@@ -8,4 +8,12 @@
 	<debugHelp>display all warnings, no matter how small</debugHelp>
 	<versionHelp>show version information and exit</versionHelp>
 	<dumplogHelp>show the log file and exit</dumplogHelp>
+	<incorrectExecutableError>You can't run Hypermatix64 like this. Try '/usr/bin/hypermatix64' instead.</incorrectExecutableError>
+	<runningInDebugMode>Hypermatix64 is running in debug mode. All errors, no matter how small, will be displayed.</runningInDebugMode>
+	<noActivityLogError>No activity log was found.</noActivityLogError>
+	<cannotCreateConfError>Cannot create the Hypermatix64 configuration folder.</cannotCreateConfError>
+	<distro>Distro detected: </distro>
+	<starting>Starting.</starting>
+	<incorrectSystemError>Hypermatix64 is not intended for use on {0}.</incorrectSystemError>
+	<logStarted>Log started.</logStarted>
 </locale>

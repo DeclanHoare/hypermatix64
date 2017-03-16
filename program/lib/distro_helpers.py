@@ -1,36 +1,54 @@
-import sys,os,time,user
+# Copyright 2006-2008 (?) Automatix Team
+# Copyright 2010 (?) TheeMahn
+# Copyright 2017 Declan Hoare
+# This file is part of Hypermatix64.
+#
+# Hypermatix64 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Hypermatix64 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
+#
+# distro_helpers.py - detects & manages the OS
+
+import sys, os, time, user
 import threading
-import apt, apt_pkg
-from xml_functions import *
-from resin_config import *
-from extra_functions import *
-#import warnings
-#warnings.filterwarnings("ignore", "apt API not stable yet", FutureWarning)
+import platform
+import xml_functions
+import conf, resin_config
+import extra_functions
+import pkg_helpers
+import resin_ui
+import hyperlocale
+
 def getDesktop():
-	if '--kde_desktop' in sys.argv:
+	if conf.onkde:
 		conf.desktop = ["any","KDE"]
 		conf.strict_desktop = "KDE"
-		conf.toggle_icons = ["/usr/share/ultamatix/pixmaps/gapps.png","/usr/share/ultamatix/pixmaps/gapps_active.png"];
+		conf.toggle_icons = ["pixmaps/gapps.png","pixmaps/gapps_active.png"];
 		conf.other_desktop = "gnome"
 	else:
 		conf.desktop = ["any","gnome"]
 		conf.strict_desktop = "gnome"
-		conf.toggle_icons = ["/usr/share/ultamatix/pixmaps/kapps.png","/usr/share/ultamatix/pixmaps/kapps_active.png"];
+		conf.toggle_icons = ["pixmaps/kapps.png","pixmaps/kapps_active.png"];
 		conf.other_desktop = "KDE"
+
 def getDistName():
-	#find the version of ubuntu the user is running...
-	versions = (('Ubuntu','Ubuntu'),('Mepis','Mepis'),('Debian','Debian'))
-	for v in versions:
-		if testOutput('lsb_release -i | grep "%s"'%v[0]):
-			return v[1]
-	return None
+	distroName = platform.linux_distribution(supported_dists=conf.supported_linux_dists)[0].capitalize()
+	if distroName == "":
+		alert(hyperlocale.getLocalisedString("incorrectSystemError"), sys.exit)
+	return distroName
+
 def getDistVersion():
-	#find the version of ubuntu the user is running...
-	versions = (('8.04','hardy'),('7.10','gutsy'),('8.10','intrepid'),('9.04','jaunty'),('4.0r0','4.0r0'),(2.2,'jaguar'),('9.10',"karmic"),('16.10',"yakkety"))
-	for v in versions:
-		if testOutput('lsb_release -r | grep "%s"'%v[0]):
-			return v[1]
-	return None
+	return platform.linux_distribution(conf.supported_linux_dists)[1]
+
 def checkConflicts():
 	"""determine if any conflicting programs are running..."""
 	if(testOutput('ps -U root -u root u | grep "synaptic" | grep -v grep')):

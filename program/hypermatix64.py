@@ -20,45 +20,43 @@
 # - detects language
 # - parses arguments
 
-from __future__ import print_function
 import sys, os, argparse, distutils.spawn
 
 sys.path.append("lib")
 mypath = os.path.realpath(os.path.abspath(__file__))
-LOCATION = os.path.dirname(mypath)
+location = os.path.dirname(mypath)
 
-import hx64_config, hyperlocale
+import conf
 
-CONF = hx64_config.conf()
-LANG = hyperlocale.HX64Locale()
+conf.home = location
+
+import hyperlocale
 
 # FIXME - There should be a more specific way to get the DE than just
 # using an environment variable to determine if we're on KDE or not.
 if "KDE_FULL_SESSION" in os.environ:
-	ONKDE = True
-else:
-	ONKDE = False
+	conf.onkde = True
 
 if "--relaunch" in sys.argv:
 	sys.argv.pop(sys.argv.index("--relaunch")) # hide from argparse
 	relaunched = True
 else:
 	relaunched = False
-	welcome = LANG.getLocalisedString("welcome")
+	welcome = hyperlocale.getLocalisedString("welcome")
 	print(welcome)
 	for count in welcome:
-		print("=", end="")
+		sys.stdout.write("=")
 	# btw, this page doesn't actually exist on my site yet - I will make
 	# it and remove this comment once HX64 is usable
 	print("\nhttp://home.exetel.com.au/declanhoare/hypermatix64")
 
-parser = argparse.ArgumentParser(description=LANG.getLocalisedString("productDescription"))
+parser = argparse.ArgumentParser(description=hyperlocale.getLocalisedString("productDescription"))
 
-parser.add_argument("-d", "--debug", dest="debug", action="store_const", const=True, default=False, help=LANG.getLocalisedString("debugHelp"))
-parser.add_argument("-v", "--version", dest="version", action="store_const", const=True, default=False, help=LANG.getLocalisedString("versionHelp"))
-parser.add_argument("-e", "--dumplog", dest="dumplog", action="store_const", const=True, default=False, help=LANG.getLocalisedString("dumplogHelp"))
+parser.add_argument("-d", "--debug", dest="debug", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString("debugHelp"))
+parser.add_argument("-v", "--version", dest="version", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString("versionHelp"))
+parser.add_argument("-e", "--dumplog", dest="dumplog", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString("dumplogHelp"))
 
-ARGS = parser.parse_args()
+conf.args = parser.parse_args()
 
 relaunch = False
 usesudo = False
@@ -67,31 +65,31 @@ if os.getuid() != 0:
 	relaunch = True
 	usesudo = True
 
-if ARGS.version or ARGS.dumplog:
+if conf.args.version or conf.args.dumplog:
 	relaunch = False
 	usesudo = False
 
-if ARGS.debug and not relaunched:
-	print(LANG.getLocalisedString("debugMode"))
+if conf.args.debug and not relaunched:
+	print(hyperlocale.getLocalisedString("debugMode"))
 	relaunch = True
 
 if relaunch:
 	command = sys.executable
 	arguments = [command]
-	if ARGS.debug:
+	if conf.args.debug:
 		arguments.append("-d")
 	arguments.append(mypath)
-	if ARGS.debug:
+	if conf.args.debug:
 		arguments.append("--debug")
 	arguments.append("--relaunch")
 	if usesudo:
 		cmdstring = " ".join(arguments)
-		if ONKDE:
+		if conf.onkde:
 			command = distutils.spawn.find_executable("kdesudo")
-			arguments = [command, "-c", cmdstring, "-d", "-n", "--comment", LANG.getLocalisedString("enterPassword")]
+			arguments = [command, "-c", cmdstring, "-d", "-n", "--comment", hyperlocale.getLocalisedString("enterPassword")]
 		else:
 			command = distutils.spawn.find_executable("gksudo")
-			arguments = [command, "--message", LANG.getLocalisedString("enterPassword"), cmdstring]
+			arguments = [command, "--message", hyperlocale.getLocalisedString("enterPassword"), cmdstring]
 	os.execv(command, arguments)
 
 import interface

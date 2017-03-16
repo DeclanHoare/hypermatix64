@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Copyright 2006-2008 (?) Automatix Team
 # Copyright 2010 (?) TheeMahn
 # Copyright 2016, 2017 Declan Hoare
@@ -20,46 +19,30 @@
 # interface.py - starts interface
 
 import sys, argparse
-from resin_config import *
 import hyperlocale
+import conf
 
-localisationFile = hyperlocale.getAndParseLocalisationFile()
 ultamatix_version_num = "1.9.0"
-resin_version_num = "3.2.5"
-ultamatix_version = hyperlocale.getLocalisedString(localisationFile, "productName") + ": " + ultamatix_version_num
-resin_version = hyperlocale.getLocalisedString(localisationFile, "resinVersionText") + resin_version_num
-if len(sys.argv) < 2:
-	print hyperlocale.getLocalisedString(localisationFile, "incorrectExecutableErrorMessage")
-	sys.exit()
+ultamatix_version = hyperlocale.getLocalisedString("productName") + ": " + ultamatix_version_num
 
-parser = argparse.ArgumentParser(description=hyperlocale.getLocalisedString(localisationFile, "productName") + " " + ultamatix_version_num)
-
-parser.add_argument("-d", "--debug", dest="debugMode", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString(localisationFile, "debugModeHelpText"))
-parser.add_argument("-v", "--version", dest="displayVersion", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString(localisationFile, "versionHelpText"))
-parser.add_argument("-e", "--dumplog", dest="displayLog", action="store_const", const=True, default=False, help=hyperlocale.getLocalisedString(localisationFile, "dumpLogHelpText"))
-
-args=parser.parse_args()
-
-if args.displayVersion:
-	print ultamatix_version
-	print resin_version
-	sys.exit()
-if args.debugMode:
-	print "Hypermatix64 is running in debug mode. All errors, no matter how small, will be displayed."
-	print ultamatix_version
-	print resin_version
-if args.displayLog:
+if conf.args.version:
+	print(ultamatix_version)
+	sys.exit(0)
+if conf.args.debug:
+	print(hyperlocale.getLocalisedString("runningInDebugMode"))
+	print(ultamatix_version)
+if conf.args.dumplog:
 	try:
-		dump = open("/etc/hypermatix64/activity.log").readlines()
+		dump = open("/var/log/hypermatix64_activity.log").readlines()
 	except:
-		print hyperlocale.getLocalisedString(localisationFile, "noActivityLogErrorMessage")
-		sys.exit()
+		print(hyperlocale.getLocalisedString("noActivityLogError"))
+		sys.exit(1)
 	for d in dump:
-		print d,
-	sys.exit()
+		print(d)
+	sys.exit(0)
 
-from startup import *
-start = startUp()
-from main_interface import *
-main = main_ui()
-gtk.main()
+import startup
+start = startup.startUp()
+import main_interface
+main = main_interface.main_ui()
+

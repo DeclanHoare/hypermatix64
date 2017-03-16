@@ -13,25 +13,24 @@
 # You should have received a copy of the GNU General Public License
 # along with Hypermatix64.  If not, see <http://www.gnu.org/licenses/>.
 #
-# hyperlocale.py - class "HX64Locale" for localising strings
+# hyperlocale.py - functions for localising strings
 
 import locale, os, xml.etree.ElementTree
-import __main__
+import conf
 
-class HX64Locale:
-	def __init__(self):
-		systemLanguage = locale.getdefaultlocale()[0]
-		theoreticalDataDirectory = os.path.join(__main__.LOCATION, "lang", systemLanguage)
-		if os.path.isdir(theoreticalDataDirectory):
-			self.dataDirectory = theoreticalDataDirectory
-		else:
-			theoreticalDataDirectory = os.path.join(__main__.LOCATION, "lang", systemLanguage.split("_")[0])
-			if os.path.isdir(theoreticalDataDirectory):
-				self.dataDirectory = theoreticalDataDirectory
-			else:
-				self.dataDirectory = os.path.join(__main__.LOCATION, "lang", "en")
-		localisationFileLocation = os.path.join(self.dataDirectory, "strings.xml")
-		localisationTree = xml.etree.ElementTree.parse(localisationFileLocation)
-		self.localisationRoot = localisationTree.getroot()
-	def getLocalisedString(self, stringName):
-	  return self.localisationRoot.find(stringName).text
+systemLanguage = locale.getdefaultlocale()[0]
+theoreticalDataDirectory = os.path.join(conf.home, "lang", systemLanguage)
+if os.path.isdir(theoreticalDataDirectory):
+	dataDirectory = theoreticalDataDirectory
+else:
+	theoreticalDataDirectory = os.path.join(conf.home, "lang", systemLanguage.split("_")[0])
+	if os.path.isdir(theoreticalDataDirectory):
+		dataDirectory = theoreticalDataDirectory
+	else:
+		dataDirectory = os.path.join(conf.home, "lang", "en")
+localisationFileLocation = os.path.join(dataDirectory, "strings.xml")
+localisationTree = xml.etree.ElementTree.parse(localisationFileLocation)
+localisationRoot = localisationTree.getroot()
+
+def getLocalisedString(stringName):
+  return localisationRoot.find(stringName).text
