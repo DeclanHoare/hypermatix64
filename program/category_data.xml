@@ -1,7 +1,7 @@
 <axCatagorys>
  <catagory>
   <name>Games</name>
-  <icon>/usr/share/hypermatix64/pixmaps/ET.xpm</icon>
+  <icon>{0}/ET.xpm</icon>
   <summary>Keep yourself entertained with a wide variety of video games</summary>
   <info>
 <![CDATA[
@@ -11,7 +11,7 @@
  </catagory>
  <catagory>
   <name>Office</name>
-  <icon>/usr/share/hypermatix64/pixmaps/office.png</icon>
+  <icon>{0}/office.png</icon>
   <summary>Programs to help you in the office</summary>
   <info>
   <![CDATA[
@@ -22,7 +22,7 @@
  </catagory>
  <catagory>
   <name>Miscellaneous</name>
-  <icon>/usr/share/hypermatix64/pixmaps/misc.png</icon>
+  <icon>{0}/misc.png</icon>
   <summary>Odds and ends</summary>
   <info>
   <![CDATA[
@@ -32,7 +32,7 @@
  </catagory>
  <catagory>
   <name>Financial</name>
-  <icon>/usr/share/hypermatix64/pixmaps/financial.png</icon>
+  <icon>{0}/financial.png</icon>
   <summary>Keep on top of your finances</summary>
   <info>
   <![CDATA[
@@ -42,7 +42,7 @@
  </catagory>
  <catagory>
   <name>Utilities</name>
-  <icon>/usr/share/hypermatix64/pixmaps/utilities.jpg</icon>
+  <icon>{0}/utilities.jpg</icon>
   <summary>System tools</summary>
   <info>
   <![CDATA[
@@ -52,7 +52,7 @@
  </catagory>
  <catagory>
   <name>Security</name>
-  <icon>/usr/share/hypermatix64/pixmaps/security.png</icon>
+  <icon>{0}/security.png</icon>
   <summary>Protect your computer</summary>
   <info>
   <![CDATA[
@@ -63,7 +63,7 @@
 
  <catagory>
   <name>Programming Tools</name>
-  <icon>/usr/share/hypermatix64/pixmaps/prog.png</icon>
+  <icon>{0}/prog.png</icon>
   <summary>Write your own software</summary>
   <info>
   <![CDATA[
@@ -74,7 +74,7 @@
 
  <catagory>
   <name>Web Browsers</name>
-  <icon>/usr/share/hypermatix64/pixmaps/firefox.png</icon>
+  <icon>{0}/firefox.png</icon>
   <summary>Surf the World Wide Web</summary>
   <info>
   <![CDATA[
@@ -84,7 +84,7 @@
  </catagory>
   <catagory>
   <name>Chat Clients</name>
-  <icon>/usr/share/hypermatix64/pixmaps/chat.png</icon>
+  <icon>{0}/chat.png</icon>
   <summary>Keep in touch with your friends</summary>
   <info>
   <![CDATA[
@@ -95,7 +95,7 @@
 
   <catagory>
   <name>E-mail Clients</name>
-  <icon>/usr/share/hypermatix64/pixmaps/mail.png</icon>
+  <icon>{0}/mail.png</icon>
   <summary>Check your e-mail</summary>
   <info>
   <![CDATA[
@@ -106,7 +106,7 @@
  
  <catagory>
   <name>File Sharing</name>
-  <icon>/usr/share/hypermatix64/pixmaps/frostwire.png</icon>
+  <icon>{0}/frostwire.png</icon>
   <summary>Send files across the Internet</summary>
   <info>
   <![CDATA[
@@ -116,7 +116,7 @@
  </catagory>
  <catagory>
   <name>Media Players and Editors</name>
-  <icon>/usr/share/hypermatix64/pixmaps/amarok.png</icon>
+  <icon>{0}/amarok.png</icon>
   <summary>Listen to music, watch and create videos</summary>
   <info>
   <![CDATA[
@@ -126,7 +126,7 @@
  </catagory>
  <catagory>
   <name>Burning and Ripping</name>
-  <icon>/usr/share/hypermatix64/pixmaps/k3b.png</icon>
+  <icon>{0}/k3b.png</icon>
   <summary>Create and copy discs</summary>
   <info>
   <![CDATA[
@@ -136,7 +136,7 @@
  </catagory>
  <catagory>
   <name>Environments</name>
-  <icon>/usr/share/hypermatix64/pixmaps/os.png</icon>
+  <icon>{0}/os.png</icon>
   <summary>Entire new environments for your system</summary>
   <info>
   <![CDATA[
@@ -146,7 +146,7 @@
  </catagory>
  <catagory>
   <name>Virtualisation</name>
-  <icon>/usr/share/hypermatix64/pixmaps/wine.png</icon>
+  <icon>{0}/wine.png</icon>
   <summary>Run the trickiest software</summary>
   <info>
   <![CDATA[
@@ -156,7 +156,7 @@
  </catagory>
  <catagory>
   <name>Eyecandy</name>
-  <icon>/usr/share/hypermatix64/pixmaps/eyecandy.png</icon>
+  <icon>{0}/eyecandy.png</icon>
   <summary>Make your computer prettier</summary>
   <info>
   <![CDATA[
@@ -166,7 +166,7 @@
  </catagory>
  <catagory>
   <name>Tweaks</name>
-  <icon>/usr/share/hypermatix64/pixmaps/tweak.png</icon>
+  <icon>{0}/tweak.png</icon>
   <summary>Tinker with Ubuntu</summary>
   <info>
   <![CDATA[
@@ -176,7 +176,7 @@
  </catagory>
  <catagory>
   <name>Desktop Publishing</name>
-  <icon>/usr/share/hypermatix64/pixmaps/desktop.png</icon>
+  <icon>{0}/desktop.png</icon>
   <summary>Redundant category</summary>
   <info>
   <![CDATA[
@@ -186,7 +186,7 @@
  </catagory>
  <catagory>
   <name>Beta</name>
-  <icon>/usr/share/hypermatix64/pixmaps/beta.png</icon>
+  <icon>{0}/beta.png</icon>
   <summary>Pre-release software</summary>
   <info>
   <![CDATA[
@@ -197,7 +197,7 @@
  </catagory>
  <catagory>
 	<name>Installers</name>
-	<icon>/usr/share/hypermatix64/pixmaps/installers.png</icon>
+	<icon>{0}/installers.png</icon>
 	<summary>Scripts which need manual intervention</summary>
 	<info>
 	<![CDATA[

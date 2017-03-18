@@ -21,6 +21,7 @@
 import sys, argparse
 import hyperlocale
 import conf
+import gtk
 
 ultamatix_version_num = "1.9.0"
 ultamatix_version = hyperlocale.getLocalisedString("productName") + ": " + ultamatix_version_num
@@ -45,4 +46,4 @@ import startup
 start = startup.startUp()
 import main_interface
 main = main_interface.main_ui()
-
+gtk.main()

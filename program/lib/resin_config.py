@@ -18,51 +18,46 @@
 #
 # resin_config.py - configuration information
 
-# !!FIXME FIXME FIXME!!
-# This file contains a LOT of APT-specific code.
-# This should all be cut out of this file and moved to an APT module
-# so that we can more easily work with distros which do not use APT.
-
 import sys, os, time, user, platform
 import gtk, gtk.glade, gobject, pango
 import hyperlocale
 import conf, xml_functions
 import distro_helpers
 
+log_file =  "/var/log/hypermatix64_activity.log"
+conf_folder = "/etc/hypermatix64"
+source_change_file = conf_folder + "/sc"
+install_log = conf_folder + "/installed"
+usage_log = conf_folder + "/user"
+
 def log(statement):
-	date = time.strftime('[%d/%m/%Y - %H:%M.%S]')
-	open_log = open(log_file,"a")
-	open_log.write("{0} - {1}\n".format(date,statement))
+	date = time.strftime('[%Y-%m-%d - %H:%M.%S]')
+	open_log = open(log_file, "a")
+	open_log.write("{0} - {1}\n".format(date, statement))
 	open_log.close()
-	return True
 
 def create_log():
-	global log_file
-	log_file =  "/var/log/hypermatix64_activity.log"
 	try:
 		os.stat(log_file)
 	except:
-		open(log_file,'w').write("")
+		open(log_file, "w").write("")
 		log(hyperlocale.getLocalisedString("logStarted"))
 
 def sim_log(string):
-	open_log = open(log_file,"a")
+	open_log = open(log_file, "a")
 	open_log.write(string)
 	open_log.close()
-	return True
 
+# worth investigating
 def set_source_mode(mode):
-	if mode:
-		open(source_change_file,"w").write("1")
-	else:
-		open(source_change_file,"w").write("0")
+	open(source_change_file, "w").write(mode)
 
 def get_source_mode():
 	try:
 		os.stat(source_change_file)
 	except:
 		return 0
-	if open(source_change_file,"r").read().strip() == "1":
+	if open(source_change_file, "r").read().strip() == "1":
 		return 1
 	else:
 		return 0
@@ -79,19 +74,15 @@ def create_conf_folder():
 			message.set_title(hyperlocale.getLocalisedString("productName"))
 			message.run()
 			sys.exit(1)
-		os.chmod(conf_folder,0755)
+		os.chmod(conf_folder, 0755)
 
 def create_installed_log():
-	global install_log
-	install_log = conf_folder + "/installed"
 	try:
 		os.stat(install_log)
 	except:
 		open(install_log,"w").write("")
 
 def create_usage_log():
-	global usage_log
-	usage_log = conf_folder + "/user"
 	try:
 		os.stat(usage_log)
 	except:
@@ -137,9 +128,6 @@ def remove_installed(id):
 def get_activity(self):
 	return open(self.log_file).read()
 
-conf_folder = "/etc/hypermatix64"
-source_change_file = conf_folder + "/sc"
-
 create_conf_folder()
 create_usage_log()
 create_installed_log()
@@ -151,24 +139,19 @@ print(hyperlocale.getLocalisedString("distro") + dist)
 dom = xml_functions.DOMX()
 dom.load(os.path.join(conf.home, "conf_data.xml"))
 locations = dom.return_dict_with_xpath('/*/locations/*')
+for key in locations.keys():
+	locations[key] = locations[key].format(conf.home)
 images = dom.return_dict_with_xpath('/*/images/*')
 for key in images.keys():
-	self.images[key] = self.locations['image']+"/"+self.images[key]
-dom = resin.DOMX()
-dom.load(locations['clientData']+"/version.xml")
-distro = dom.return_dict_with_xpath('/*/distro/*')
-version = dom.return_dict_with_xpath('/*/version/*')
-key_dom = resin.DOMX()
-key_dom.load(locations['clientData']+"/key_data.xml")
-keys = key_dom.xBuild()
-apt_sources = locations['sources']+"/sources.list"
-catagorys = resin.DOMX()
+	images[key] = locations['image'] + "/" + images[key]
+key_dom = xml_functions.DOMX()
+apt_sources = locations['sources']+"/sources.list" # FIXME
+catagorys = xml_functions.DOMX()
 catagorys.load(locations['clientData']+"/category_data.xml")
 catagory = catagorys.xBuild()
-master = open(locations["clientData"]+"/init_master").read()+"\n"
 client = ""
-file_li = os.popen("find %s"%self.locations['clientData']+'scripts/'+dist,"r").readlines()
-print "Scripting location:"+self.locations['clientData']+'scripts/'+dist
+file_li = os.popen("find %s"%locations['clientData']+'/scripts/'+dist,"r").readlines()
+print "Scripting location:"+locations['clientData']+'/scripts/'+dist
 for f in file_li:
 	f = f.strip()
 	print "File: "+f
@@ -176,9 +159,8 @@ for f in file_li:
 	if  check == 'autoscript':
 		con = open(f,"r").read()
 		client += con+"\n"
-pre = "AXUSER=%s\nAXHOME=%s\nAXPIPEIN=%s\nAXPIPEOUT=%s\n"%(axUser.username,axUser.home,axUser.ax_in,axUser.ax_out)
-self.masterInit = pre+master+client
-def get_changelog(self):
+
+def get_changelog():
 	# FIXME! The changelog is going to end up somewhere more sane,
 	# and we should get its path using conf_data.xml anyway.
 	return open("/usr/share/hypermatix64/changelog",'r').read()

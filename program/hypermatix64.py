@@ -79,8 +79,7 @@ if relaunch:
 	if conf.args.debug:
 		arguments.append("-d")
 	arguments.append(mypath)
-	if conf.args.debug:
-		arguments.append("--debug")
+	arguments += sys.argv[1:]
 	arguments.append("--relaunch")
 	if usesudo:
 		cmdstring = " ".join(arguments)

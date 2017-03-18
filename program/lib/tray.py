@@ -4,6 +4,7 @@
 # anyway, meaning the latter may be a good idea.
 import gtk, pango
 import sys
+import traceback
 class TrayIcon(object):
 	__icon = False
 	__mapped = False
@@ -31,7 +32,7 @@ class TrayIcon(object):
 			return True
 	def __show_window(self, window):
 		try: window.move(*window.__position)
-		except AttributeError: pass
+		except AttributeError: traceback.print_exc()
 		window.show()
 	def __hide_window(self, window):
 		window.__position = window.get_position()

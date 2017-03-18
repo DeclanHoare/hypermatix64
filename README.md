@@ -21,6 +21,6 @@ flexibly and remove packages safely (uninstalling an option will
 ONLY remove dependencies which were both installed because of that
 option and are not needed by anything else).
 
-It is literally unusable in its current state (it will not launch)
-and I have decided to commit it to GitHub already for development
-purposes.
+It is completely useless in its current state, with parts of the old
+backend rooted out already with nothing to replace them yet. I'm working
+on it.

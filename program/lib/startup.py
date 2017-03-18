@@ -23,94 +23,69 @@ import resin_config, resin_ui
 import distro_helpers, extra_functions
 import resin_controllers, hyperlocale
 import tray, interface, getpass
+import conf, sys
 
 class startUp:
 	def __init__(self):
 		print(hyperlocale.getLocalisedString("starting"))
 		conf.restricted = 0
-		self.splashArea = splash()
-		update_ui()
+		self.splashArea = resin_ui.splash()
+		extra_functions.update_ui()
 		self.checkEnviroment()
 	def checkEnviroment(self):
-		#add reporting of minor revisions //theemahn
-		axUser.log("!!Starting Hypermatix64 %s!!"%axConf.version['number'])
+		resin_config.log(hyperlocale.getLocalisedString("logStarting").format(conf.version))
 		cur_user = getpass.getuser()
-		if cur_user != 'root':
+		if cur_user != "root":
 			self.splashArea.window.hide()
-			alert("<b>Hypermatix64 must be run as root!</b>\nPlease try again.", sys.exit)
-		conf.uName = getDistName()
-		self.splashArea.prog.set_text("Checking %s version..."%conf.uName)
+			resin_ui.alert(hyperlocale.getLocalisedString("notRunningAsRootError"), sys.exit)
+		conf.uName = distro_helpers.getDistName()
+		self.splashArea.prog.set_text(hyperlocale.getLocalisedString("checkVersion").format(conf.uName))
 		self.splashArea.prog.set_fraction(0.2)
-		update_ui()
-		global uVersion
-		conf.uVersion = getDistVersion()
-		getDesktop()
-		self.splashArea.prog.set_text("Found %s..."%conf.uVersion)
-		update_ui()
-		if axConf.distro['version'] != conf.uVersion or axConf.distro['name'] != conf.uName:
+		extra_functions.update_ui()
+		conf.uVersion = distro_helpers.getDistVersion()
+		distro_helpers.getDesktop()
+		self.splashArea.prog.set_text(hyperlocale.getLocalisedString("foundVersion").format(conf.uVersion))
+		extra_functions.update_ui()
+		if conf.uName not in conf.supported_linux_dists:
 			self.splashArea.window.hide()
-			alert("This version of Automatix is for %s %s only"%(axConf.distro['name'],axConf.distro['version']),sys.exit)
+			resin_ui.alert(hyperlocale.getLocalisedString("incorrectSystemError").format(conf.uName), sys.exit)
 		#check enviroment for synaptic ect...
-		self.splashArea.prog.set_text("Checking environment...")
+		self.splashArea.prog.set_text(hyperlocale.getLocalisedString("checkEnvironment"))
 		self.splashArea.prog.set_fraction(0.4)
-		update_ui()
-		conflicts = checkConflicts();
+		extra_functions.update_ui()
+		conflicts = distro_helpers.checkConflicts()
 		#locker = exclusive_lock();
 		#report conflicts if any
 		if conflicts:
 			self.splashArea.window.hide()
-			alert(conflicts[1],sys.exit)
-		self.splashArea.prog.set_text("Checking for Internet Connection...")
+			resin_ui.alert(conflicts[1], sys.exit)
+		self.splashArea.prog.set_text(hyperlocale.getLocalisedString("checkConnection"))
 		self.splashArea.prog.set_fraction(0.5)
-		update_ui()
+		extra_functions.update_ui()
 		#check for an internerd connection...
-		if checkConnection() == False:
+		if not distro_helpers.checkConnection():
 			self.splashArea.window.destroy()
-			alert("<b>Internet Disruption</b>\nPlease check that you are connected to the internet.\nIf you are connected and getting this message please try again later.",sys.exit)
-		self.splashArea.prog.set_text("Checking Repositories List...")
-		self.splashArea.prog.set_fraction(0.6)
-		update_ui()
-		##update splash...
-		self.splashArea.prog.set_text("Retrieving Keys...")
-		self.splashArea.prog.set_fraction(0.555)
-		update_ui()
-		#get keys...
-		conf.update_my_repos = 0;
-		saved_frac = self.splashArea.prog.get_fraction()
-		int = len(axConf.keys)/100.00
-		count = 0
-		#for key in axConf.keys:
-		#	count += 1
-		#	self.splashArea.prog.set_text("Retrieving Keys, This May Take a Moment...")
-		#	if getKey(key['id'],key['address']):
-		#		pass
-		#	else:
-		#		self.splashArea.window.destroy()
-			#	alert("Sorry Automatix can not continue because some keys could not be downloaded, please try again later.",sys.exit)	
-		#	self.splashArea.prog.set_text("Retrieving Keys (%s), Please Wait..."%count)
-		#	self.splashArea.prog.set_fraction(count*int)
-		#	update_ui()
-		self.splashArea.prog.set_fraction(int)			
-		##update splash...
-		self.splashArea.prog.set_text("Setting Up Repositories...")
-		self.splashArea.prog.set_fraction(0.7)
-		update_ui()	
-		repoUpdate = setupRepos()
-		##update splash...
-		self.splashArea.prog.set_text("Updating Repositories...")
-		self.splashArea.prog.set_fraction(0.8)
-		update_ui()
-		if repoUpdate or conf.update_my_repos == 1:
-				self.splashArea.window.hide()
-				axUser.update_apt()
-				self.splashArea.window.show()
-				update_ui()
-				conf.update_my_repos = 0;
+			resin_ui.alert(hyperlocale.getLocalisedString("notConnectedError"), sys.exit)
+		#FIXME
+		#self.splashArea.prog.set_text("Setting Up Repositories...")
+		#self.splashArea.prog.set_fraction(0.7)
+		#extra_functions.update_ui()	
+		#repoUpdate = setupRepos()
+		###update splash...
+		#self.splashArea.prog.set_text("Updating Repositories...")
+		#self.splashArea.prog.set_fraction(0.8)
+		#extra_functions.update_ui()
+		#if repoUpdate or conf.update_my_repos == 1:
+				#self.splashArea.window.hide()
+				#axUser.update_apt()
+				#self.splashArea.window.show()
+				#update_ui()
+				#conf.update_my_repos = 0;
 		self.splashArea.prog.set_text("Building Scripts List...")
 		self.splashArea.prog.set_fraction(0.9)
-		update_ui()
-		buildScripts()
+		extra_functions.update_ui()
+		extra_functions.buildScripts()
 		self.splashArea.prog.set_fraction(1)
-		update_ui()
+		extra_functions.update_ui()
 		self.splashArea.window.hide()
-		update_ui()
+		extra_functions.update_ui()

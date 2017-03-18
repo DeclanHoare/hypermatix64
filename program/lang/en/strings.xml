@@ -16,4 +16,23 @@
 	<starting>Starting.</starting>
 	<incorrectSystemError>Hypermatix64 is not intended for use on {0}.</incorrectSystemError>
 	<logStarted>Log started.</logStarted>
+	<logStarting>Starting Hypermatix64 {0}.</logStarting>
+	<notRunningAsRootError><![CDATA[ <b>Hypermatix64 must be run as root!</b>\nPlease try again. ]]></notRunningAsRootError>
+	<checkVersion>Checking {0} version</checkVersion>
+	<foundVersion>Found {0}</foundVersion>
+	<checkEnvironment>Checking environment</checkEnvironment>
+	<notConnectedError><![CDATA[ <b>Internet Disruption</b>\nPlease check that you are connected to the Internet.\nIf you are connected and getting this message please try again later. ]]></notConnectedError>
+	<checkConnection>Checking Internet connection</checkConnection>
+	<alert>Alert</alert>
+	<unknown>this platform</unknown>
+	<about>About</about>
+	<aboutText><![CDATA[
+<b>Hypermatix64</b> is developed and maintained by <b>RogueAI</b> (Declan Hoare).
+It is based on <b>Ultamatix</b> by <b>TheeMahn</b>, which is in turn based on <b>Automatix2</b> by the <b>Automatix Team</b>.
+
+The Web page of Hypermatix64 can be found at <a href="http://home.exetel.com.au/declanhoare/hypermatix64">http://home.exetel.com.au/declanhoare/hypermatix64</a>. The GitHub repository is located at <a href="https://github.com/RogueAI42/hypermatix64">https://github.com/RogueAI42/hypermatix64</a>. If you have suggestions or requests, please send them to <a href="mailto:declanhoare@exemail.com.au">declanhoare@exemail.com.au</a>.
+
+Thanks to everyone else who has indirectly contributed to Hypermatix64 or its predecessors.
+			]]></aboutText>
+	<errorReport>Error and Information Report</errorReport>
 </locale>

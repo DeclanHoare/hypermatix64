@@ -19,7 +19,9 @@
 # conf.py - global variables
 
 home = ""
+uName = ""
 uVersion = ""
+version = "1.9.0"
 supported_systems = ["Linux"] # will probably never change
 supported_architectures = ["i386", "x86_64"]
 supported_linux_dists = ["arch"]

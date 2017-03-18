@@ -16,5 +16,6 @@
 		<infoIcon>dialog-information.png</infoIcon>
 		<warningIcon>dialog-error.png</warningIcon>
 		<fatalIcon>dialog-warning.png</fatalIcon>
+		<viewIcon>view_icon.png</viewIcon>
 	</images>
 </axConfig>

@@ -1,7 +1,11 @@
 import threading
-from xml_functions import *
-from resin_config import *
-from class_script import *
+import xml_functions
+import resin_config
+import class_script
+import gtk, os
+import conf
+import hyperlocale
+
 class repo_proc:
 	def __init__(self,repo_file=None):
 		self.repo_file = repo_file	
@@ -85,12 +89,11 @@ def compare_sources():
 def no_delete(window,event):
 	return True
 #set the title of a GTK window according to a set standard
-def set_title(window,addition=None):
+def set_title(window,addition=False):
 	if addition:
-		addition = ":%s"%addition
+		window.set_title("{0}: {1}".format(hyperlocale.getLocalisedString("productName"), addition))
 	else:
-		addition = ""
-	window.set_title("%s %s"%(axConf.version['name'],addition))
+		window.set_title(hyperlocale.getLocalisedString("productName"))
 #create a pipe and see if anything is returned...
 def testOutput(sys_call):
 	if(os.popen(sys_call).read()):
@@ -104,15 +107,10 @@ def update_ui():
 					gtk.main_iteration(False)
 #get list of XML files...
 def get_script_xml_files():
-#Added distro specifics
-#Grab list as per distro
-	out = []
-	dir = axConf.locations['clientData']+"script_data/"+conf.uVersion
-	for t in os.popen("find %s"%dir).readlines():
-		t = t.strip()
-		if t[t.rfind(".")+1:len(t)] == "xml":
-			out+=[t]
-	return out
+# Possibly extensible.
+# Currently just returns script_data.xml in a list, but maybe it will
+# need to return a distro-specific file for repositories in the future.
+	return [os.path.join(resin_config.locations["clientData"], "script_data.xml")]
 #start building scripts
 def buildScripts():
 	conf.script_list = []
@@ -142,14 +140,14 @@ def get_script(id):
 	return False
 #determined if installed AX scripts are still supported by the AX team
 def cleanup_installed():
-	installed = axUser.get_installed()
+	installed = resin_config.get_installed()
 	all = get_all_scripts()
 	for i in installed:
 		if i not in all:
 			axUser.remove_installed(i)
 #parse the script info	
 def buildScript(search_script):
-		xml = DOMX()
+		xml = xml_functions.DOMX()
 		xml.load(search_script)
 		conf.script_data = xml.xBuild()
 		for scr in conf.script_data:
@@ -168,14 +166,12 @@ def buildScript(search_script):
 					break_end = c
 					break
 				c+=1
-			if new_list:
-				pass
-			else:
+			if not new_list:
 				sw = 0	
-				new_list = script_list()
+				new_list = class_script.script_list()
 				new_list.type = cat_type
 				new_list.scripts = []
-				for cat in axConf.catagory:
+				for cat in resin_config.catagory:
 					if cat['name'].lower() == new_list.type.lower():
 						conf_data = cat
 						break
@@ -183,7 +179,7 @@ def buildScript(search_script):
 					if conf_data['icon'] != "None" and conf_data['icon'] != None:
 							new_list.icon = conf_data['icon']
 					else:
-						new_list.icon = axConf.locations['image']+'/window.png'
+						new_list.icon = resin_config.locations['image']+'/window.png'
 					if conf_data['summary'] != "None" and conf_data['summary'] != None:
 							new_list.summary = conf_data['summary']
 					else:
@@ -193,10 +189,10 @@ def buildScript(search_script):
 					else:
 						new_list.info = ""
 				else:
-					new_list.icon = axConf.locations['image']+'/window.png'
+					new_list.icon = resin_config.locations['image']+'/window.png'
 					new_list.summary = ""		
 			for script_dict in conf.script_data: 
-				new = script()
+				new = class_script.script()
 				try:
 					final = []
 					desktop = script_dict['desktop']
@@ -219,7 +215,7 @@ def buildScript(search_script):
 							not_strict = 0
 						break
 				if script_dict['type'] == new_list.type and desk_sw == 1:
-					new = script()
+					new = class_script.script()
 					new.id = script_dict['id']
 					new.title = script_dict['title']
 					new.description = script_dict['description']

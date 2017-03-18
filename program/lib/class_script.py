@@ -1,5 +1,4 @@
-from resin_config import *
-import operator
+import resin_config, operator, gtk, gobject, conf
 class script:
 	def __init__(self):
 		self.id = ""
@@ -19,7 +18,7 @@ class script_list:
 	def seperate_scripts(self):
 		tmp = []
 		for script in self.scripts:
-			if script.id not in axUser.get_installed():
+			if script.id not in resin_config.get_installed():
 				tmp += [script]
 			else:
 				self.scripts_uninstall += [script]

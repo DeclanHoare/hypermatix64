@@ -27,6 +27,7 @@ import extra_functions
 import pkg_helpers
 import resin_ui
 import hyperlocale
+import httplib
 
 def getDesktop():
 	if conf.onkde:
@@ -41,9 +42,9 @@ def getDesktop():
 		conf.other_desktop = "KDE"
 
 def getDistName():
-	distroName = platform.linux_distribution(supported_dists=conf.supported_linux_dists)[0].capitalize()
+	distroName = platform.linux_distribution(supported_dists=conf.supported_linux_dists)[0]
 	if distroName == "":
-		alert(hyperlocale.getLocalisedString("incorrectSystemError"), sys.exit)
+		resin_ui.alert(hyperlocale.getLocalisedString("incorrectSystemError").format(hyperlocale.getLocalisedString("unknown")), sys.exit)
 	return distroName
 
 def getDistVersion():
@@ -51,15 +52,15 @@ def getDistVersion():
 
 def checkConflicts():
 	"""determine if any conflicting programs are running..."""
-	if(testOutput('ps -U root -u root u | grep "synaptic" | grep -v grep')):
+	if(extra_functions.testOutput('ps -U root -u root u | grep "synaptic" | grep -v grep')):
 		return ("Synaptic","<b>Synaptic is running</b>\nPlease close Synaptic and restart Ultamatix. ")
-	if(testOutput('ps -U root -u root u | grep "update-manager" | grep -v grep')):
+	if(extra_functions.testOutput('ps -U root -u root u | grep "update-manager" | grep -v grep')):
 		return ("Update-Manager","<b>Ubuntu Update Manager is running</b>\nPlease close Ubuntu Update Manager and restart Ultamatix. ")
-	if(testOutput('ps -U root -u root u | grep "apt-get" | grep -v grep')):
+	if(extra_functions.testOutput('ps -U root -u root u | grep "apt-get" | grep -v grep')):
 		return ("Apt","<b>Apt-get is running</b>\nPlease close Apt-get and restart Ultamatix. ")
-	if(testOutput('ps -U root -u root u | grep "adept" | grep -v grep')):
+	if(extra_functions.testOutput('ps -U root -u root u | grep "adept" | grep -v grep')):
 		return ("Adept","<b>Adept is running</b>\nPlease close Adept and restart Ultamatix. ")
-	if(testOutput('ps -U root -u root u | grep "ultamatix.py" | grep "/usr/bin/python" | grep -v grep | grep -v %s'%os.getpid())):
+	if(extra_functions.testOutput('ps -U root -u root u | grep "ultamatix.py" | grep "/usr/bin/python" | grep -v grep | grep -v %s'%os.getpid())):
 		return ("another Ultamatix session","<b>Ultamatix is already running</b>\nOnly one Ultamatix session may be run at any time. ")
 	""" get the APT lock //major bug in automatix, will not exist in ultamatix
         try_acquire_lock"""	
@@ -79,17 +80,17 @@ def checkConflicts():
 #        except SystemError:
 #            print "WARNING: trying to unlock a not-locked PkgSystem"
 #            pass
+
 def checkConnection():
-	check = os.popen3("ping getautomatix.com -c 1 -w 1");
-	if "unknown host" in check[2].read():
-		if os.system("cd %s;wget http://www.getautomatix.com/files/example"%axUser.conf_folder):
-			pass
-		else:
-			os.system("cd %s;rm ./example"%axUser.conf_folder)				
-			return True
-	else:
+	conn = httplib.HTTPConnection("www.google.com", timeout=5)
+	try:
+		conn.request("HEAD", "/")
+		conn.close()
 		return True
-	return False	
+	except:
+		conn.close()
+		return False
+	
 def setupRepos():
 			#change repos...Prompt end user first, perhaps add option user selectable //theemahn
 			axUser.backup_sources()
