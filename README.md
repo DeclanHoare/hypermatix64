@@ -8,8 +8,8 @@ to target Ubuntu in its first release, development is currently
 taking place on Arch to preserve my own sanity.)
 
 It is a graphical frontend for traditional package managers intended
-to abstract away the need for the user to deal with 3rd-party repos
-- just select the wanted application and press a button to install
+to abstract away the need for the user to deal with 3rd-party repos - 
+just select the wanted application and press a button to install
 it. It will be written entirely in Python.
 
 It is based on the Automatix2 and Ultamatix projects, with various
